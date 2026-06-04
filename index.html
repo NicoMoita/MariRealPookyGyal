@@ -29,7 +29,6 @@
         h1 { 
             font-weight: 800;
             font-size: 3.5rem;
-            /* Thick comic book line art text effect */
             text-shadow: 4px 4px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000; 
             margin-bottom: 40px; 
             letter-spacing: -1px;
@@ -45,74 +44,86 @@
             align-items: center;
         }
         
-        button { 
+        /* 3-Layer Spider-Verse Button System */
+        #yes-btn { 
+            position: relative;
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: 10px;
+            width: 150px;
+            height: 65px;
+            cursor: pointer;
+        }
+
+        .punk-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: 'Poppins', sans-serif;
             font-weight: 800;
-            font-size: 24px; 
-            padding: 15px 40px; 
-            margin: 10px; 
-            cursor: pointer; 
-            border: 4px solid #000; /* Bold comic outlining */
-            border-radius: 4px; /* Harder zine-style edges */
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease;
-        }
-        
-        /* Base Yes Button */
-        #yes-btn { 
-            background-color: #23c45e; 
-            color: white; 
-            box-shadow: 5px 5px 0px #000;
-            position: relative;
-            z-index: 5;
-        }
-        
-        /* --- SPIDER-VERSE PUNK BACKGROUND LAYERS --- */
-        #yes-btn::before, #yes-btn::after {
-            content: '';
-            position: absolute;
-            top: -4px; left: -4px; right: -4px; bottom: -4px;
-            z-index: -1;
-            opacity: 0;
+            font-size: 24px;
             border: 4px solid #000;
-            transition: transform 0.15s ease, opacity 0.1s ease;
+            border-radius: 4px;
+            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease;
         }
-        
-        /* Layer 1: Jagged Hot Pink Halftone-style Cutout */
-        #yes-btn::before {
-            background: #ff0055;
-            clip-path: polygon(6% 0%, 94% 11%, 100% 83%, 78% 93%, 12% 100%, 0% 41%, 15% 30%);
-        }
-        
-        /* Layer 2: Sharp Punk Yellow Electric Shockwave */
-        #yes-btn::after {
+
+        /* Bottom Layer: Punk Yellow */
+        .yellow-layer {
             background: #ffea00;
-            clip-path: polygon(0% 20%, 85% 0%, 100% 40%, 90% 95%, 45% 85%, 5% 100%);
+            z-index: 1;
+            clip-path: polygon(2% 8%, 98% 0%, 100% 85%, 88% 95%, 15% 100%, 0% 40%);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        /* Middle Layer: Jagged Hot Pink */
+        .pink-layer {
+            background: #ff0055;
+            z-index: 2;
+            clip-path: polygon(5% 0%, 95% 10%, 100% 80%, 75% 95%, 10% 98%, 0% 50%);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        /* Top Layer: Central Neon Green (Always stays readable!) */
+        .green-layer {
+            background: #23c45e;
+            color: white;
+            z-index: 3;
+            box-shadow: 5px 5px 0px #000;
         }
         
-        /* --- EXPLOSIVE SPIDER-PUNK HOVER STATE --- */
-        #yes-btn:hover {
-            background-color: #00ff66; /* Neon Shock Green */
+        /* --- Perfected Explosive Hover Effects --- */
+        #yes-btn:hover .green-layer {
+            background-color: #00ff66;
             color: #000;
-            box-shadow: 7px 7px 0px #000;
-            transform: scale(1.25) rotate(-5deg);
+            transform: scale(1.15) rotate(-5deg);
+            box-shadow: 6px 6px 0px #000;
         }
         
-        /* Shatter the Pink layer out to the bottom left */
-        #yes-btn:hover::before {
+        #yes-btn:hover .pink-layer {
             opacity: 1;
-            transform: scale(1.2) translate(-15px, 12px) rotate(12deg);
+            transform: scale(1.2) translate(-14px, 12px) rotate(8deg);
         }
         
-        /* Shatter the Yellow layer out to the top right */
-        #yes-btn:hover::after {
+        #yes-btn:hover .yellow-layer {
             opacity: 1;
-            transform: scale(1.35) translate(18px, -10px) rotate(-15deg);
+            transform: scale(1.3) translate(16px, -10px) rotate(-12deg);
         }
         
         /* Soap bar No Button */
         #no-btn { 
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 24px; 
+            padding: 15px 40px;
             background-color: #f44336; 
             color: white; 
+            border: 4px solid #000;
+            border-radius: 4px;
             position: fixed; 
             box-shadow: 5px 5px 0px #000;
             z-index: 4;
@@ -160,6 +171,7 @@
             color: black; 
             font-weight: 600;
             border: none;
+            cursor: pointer;
         }
         .player-controls button:hover {
             background: #ff0055;
@@ -170,10 +182,15 @@
 </head>
 <body onclick="startFirstPlay()">
 
-    <h1>Olá minina esnupi, queres ir passear e comer gelado /também pode ser pão de alho/</h1>
+    <h1>Will you go out with me?</h1>
     
     <div class="button-area">
-        <button id="yes-btn" onclick="notifyMe(event)">Yes!</button>
+        <button id="yes-btn" onclick="notifyMe(event)">
+            <div class="punk-layer yellow-layer"></div>
+            <div class="punk-layer pink-layer"></div>
+            <div class="punk-layer green-layer">Yes!</div>
+        </button>
+        
         <button id="no-btn" onmouseover="moveButton()">No</button>
     </div>
 
@@ -187,19 +204,25 @@
         </div>
     </div>
 
-    <audio id="myAudio" loop>
+    <audio id="myAudio">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Clean layout calculations to place No button beautifully next to Yes
+        // Align No button natively next to the newly structured Yes button layout
         window.addEventListener('DOMContentLoaded', function() {
             var yesBtn = document.getElementById('yes-btn');
             var noBtn = document.getElementById('no-btn');
             var yesRect = yesBtn.getBoundingClientRect();
             
-            noBtn.style.left = (yesRect.right + 20) + 'px';
+            noBtn.style.left = (yesRect.right + 30) + 'px';
             noBtn.style.top = yesRect.top + 'px';
+
+            // AUTOMATICALLY SKIP SONG WHEN IT ENDS
+            var audio = document.getElementById('myAudio');
+            audio.addEventListener('ended', function() {
+                nextSong();
+            });
         });
 
         // --- Soap Bar "No" Button Sliding Physics ---
@@ -225,7 +248,7 @@
             btn.style.top = newY + 'px';
         }
 
-        // --- Music & GIF Sync System ---
+        // --- Music & GIF Data ---
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
         var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
         var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
@@ -246,7 +269,10 @@
 
         function updateSong() {
             audio.src = songs[currentSongIndex];
-            document.getElementById('song-gif').src = gifs[currentSongIndex];
+            
+            // CACHE BUSTER TRICK: Appends a random timestamp (?v=...) to force the browser to reload the image
+            document.getElementById('song-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
+            
             document.getElementById('song-title').innerText = songTitles[currentSongIndex];
             if (isPlaying) {
                 audio.play();
@@ -285,8 +311,8 @@
         function notifyMe(event) {
             event.stopPropagation();
             
-            var yesBtn = document.getElementById('yes-btn');
-            yesBtn.innerText = "Sending... ❤️";
+            var greenLayer = document.querySelector('.green-layer');
+            greenLayer.innerText = "Sending... ❤️";
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
@@ -294,10 +320,10 @@
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
                 alert("Yay! I can't wait! 🥰❤️");
-                yesBtn.innerText = "Yes!";
+                greenLayer.innerText = "Yes!";
             }).catch(function() {
                 alert("Yay! I can't wait! 🥰❤️");
-                yesBtn.innerText = "Yes!";
+                greenLayer.innerText = "Yes!";
             });
         }
     </script>
