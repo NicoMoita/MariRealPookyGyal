@@ -6,7 +6,7 @@
     <title>Will you go out with me?</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; }
@@ -28,17 +28,17 @@
         
         h1 { 
             font-weight: 800;
-            font-size: 3rem;
-            text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; 
-            margin-bottom: 30px; 
+            font-size: 3.5rem;
+            /* Thick comic book line art text effect */
+            text-shadow: 4px 4px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000; 
+            margin-bottom: 40px; 
             letter-spacing: -1px;
             padding: 0 20px;
         }
         
-        /* Fixed container to keep buttons stable on initialization */
         .button-area {
             position: relative;
-            height: 100px;
+            height: 120px;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -47,43 +47,79 @@
         
         button { 
             font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 22px; 
-            padding: 15px 35px; 
+            font-weight: 800;
+            font-size: 24px; 
+            padding: 15px 40px; 
             margin: 10px; 
             cursor: pointer; 
-            border: none; 
-            border-radius: 12px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            border: 4px solid #000; /* Bold comic outlining */
+            border-radius: 4px; /* Harder zine-style edges */
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease;
         }
         
+        /* Base Yes Button */
         #yes-btn { 
-            background-color: #4CAF50; 
+            background-color: #23c45e; 
             color: white; 
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 5px 5px 0px #000;
+            position: relative;
             z-index: 5;
         }
         
-        /* Spider-Punk Highlight Effect */
-        #yes-btn:hover {
-            background-color: #00ff66; 
-            color: #000000;
-            font-weight: 800;
-            box-shadow: 0 0 0 4px #000, 0 0 0 8px #ff0055, 0 0 25px #00f0ff;
-            transform: scale(1.15) rotate(-4deg);
+        /* --- SPIDER-VERSE PUNK BACKGROUND LAYERS --- */
+        #yes-btn::before, #yes-btn::after {
+            content: '';
+            position: absolute;
+            top: -4px; left: -4px; right: -4px; bottom: -4px;
+            z-index: -1;
+            opacity: 0;
+            border: 4px solid #000;
+            transition: transform 0.15s ease, opacity 0.1s ease;
         }
         
-        /* Soap bar No Button with solid fallback initial positioning */
+        /* Layer 1: Jagged Hot Pink Halftone-style Cutout */
+        #yes-btn::before {
+            background: #ff0055;
+            clip-path: polygon(6% 0%, 94% 11%, 100% 83%, 78% 93%, 12% 100%, 0% 41%, 15% 30%);
+        }
+        
+        /* Layer 2: Sharp Punk Yellow Electric Shockwave */
+        #yes-btn::after {
+            background: #ffea00;
+            clip-path: polygon(0% 20%, 85% 0%, 100% 40%, 90% 95%, 45% 85%, 5% 100%);
+        }
+        
+        /* --- EXPLOSIVE SPIDER-PUNK HOVER STATE --- */
+        #yes-btn:hover {
+            background-color: #00ff66; /* Neon Shock Green */
+            color: #000;
+            box-shadow: 7px 7px 0px #000;
+            transform: scale(1.25) rotate(-5deg);
+        }
+        
+        /* Shatter the Pink layer out to the bottom left */
+        #yes-btn:hover::before {
+            opacity: 1;
+            transform: scale(1.2) translate(-15px, 12px) rotate(12deg);
+        }
+        
+        /* Shatter the Yellow layer out to the top right */
+        #yes-btn:hover::after {
+            opacity: 1;
+            transform: scale(1.35) translate(18px, -10px) rotate(-15deg);
+        }
+        
+        /* Soap bar No Button */
         #no-btn { 
             background-color: #f44336; 
             color: white; 
             position: fixed; 
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 5px 5px 0px #000;
             z-index: 4;
             transition: left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1); 
         }
 
-        /* Upgraded Music Player UI */
+        /* Music Player UI */
         .music-player {
             position: fixed;
             bottom: 25px;
@@ -123,6 +159,7 @@
             background: white; 
             color: black; 
             font-weight: 600;
+            border: none;
         }
         .player-controls button:hover {
             background: #ff0055;
@@ -133,7 +170,7 @@
 </head>
 <body onclick="startFirstPlay()">
 
-    <h1>Will you go out with me?</h1>
+    <h1>Olá minina esnupi, queres ir passear e comer gelado /também pode ser pão de alho/</h1>
     
     <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">Yes!</button>
@@ -155,13 +192,12 @@
     </audio>
 
     <script>
-        // Set initial positions cleanly via JavaScript once the page loads
+        // Clean layout calculations to place No button beautifully next to Yes
         window.addEventListener('DOMContentLoaded', function() {
             var yesBtn = document.getElementById('yes-btn');
             var noBtn = document.getElementById('no-btn');
             var yesRect = yesBtn.getBoundingClientRect();
             
-            // Put the No button right next to the Yes button natively
             noBtn.style.left = (yesRect.right + 20) + 'px';
             noBtn.style.top = yesRect.top + 'px';
         });
@@ -189,7 +225,7 @@
             btn.style.top = newY + 'px';
         }
 
-        // --- Music & GIF Sync Array ---
+        // --- Music & GIF Sync System ---
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
         var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
         var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
