@@ -534,7 +534,7 @@
             startFirstPlay(); 
             
             var greenLayer = document.querySelector('.green-layer');
-            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... </div>";
+            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... ❤️</div>";
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
@@ -562,10 +562,10 @@
                 body: JSON.stringify({ Status: "Nope" }), 
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
-                alert("That's ok :/");
+                alert("Está bem... 🥺");
                 noBtn.innerText = "Não"; 
             }).catch(function() {
-                alert("That's ok :/");
+                alert("Está bem... 🥺");
                 noBtn.innerText = "Não";
             });
         }
