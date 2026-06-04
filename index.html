@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will you go out with me?</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=400;600;800&display=swap" rel="stylesheet">
     
     <style>
+        * { box-sizing: border-box; }
+        
         body { 
             text-align: center; 
             font-family: 'Poppins', sans-serif; 
@@ -29,6 +32,17 @@
             text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; 
             margin-bottom: 30px; 
             letter-spacing: -1px;
+            padding: 0 20px;
+        }
+        
+        /* Fixed container to keep buttons stable on initialization */
+        .button-area {
+            position: relative;
+            height: 100px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         button { 
@@ -40,13 +54,14 @@
             cursor: pointer; 
             border: none; 
             border-radius: 12px;
-            transition: all 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
         }
         
         #yes-btn { 
             background-color: #4CAF50; 
             color: white; 
             box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            z-index: 5;
         }
         
         /* Spider-Punk Highlight Effect */
@@ -58,23 +73,25 @@
             transform: scale(1.15) rotate(-4deg);
         }
         
+        /* Soap bar No Button with solid fallback initial positioning */
         #no-btn { 
             background-color: #f44336; 
             color: white; 
-            position: absolute; 
-            left: calc(50% + 80px); 
-            top: calc(50% + 35px);
+            position: fixed; 
             box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-            transition: left 0.9s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.9s cubic-bezier(0.1, 0.8, 0.3, 1); 
+            z-index: 4;
+            transition: left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1); 
         }
 
+        /* Upgraded Music Player UI */
         .music-player {
             position: fixed;
             bottom: 25px;
-            background: rgba(15, 15, 15, 0.8);
+            background: rgba(15, 15, 15, 0.85);
             padding: 15px;
             border-radius: 20px;
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 2px solid rgba(255, 255, 255, 0.1);
             z-index: 10;
             width: 240px;
@@ -118,11 +135,135 @@
 
     <h1>Will you go out with me?</h1>
     
-    <div>
+    <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">Yes!</button>
         <button id="no-btn" onmouseover="moveButton()">No</button>
     </div>
 
     <div class="music-player" onclick="event.stopPropagation()">
         <img id="song-gif" class="player-gif" src="gif1.gif" alt="Music Visualizer">
-        <p id="song-title">🎵 Song
+        <p id="song-title">🎵 Song 1</p>
+        <div class="player-controls">
+            <button onclick="prevSong()">⏮ Back</button>
+            <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
+            <button onclick="nextSong()">Next ⏭</button>
+        </div>
+    </div>
+
+    <audio id="myAudio" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Set initial positions cleanly via JavaScript once the page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            var yesBtn = document.getElementById('yes-btn');
+            var noBtn = document.getElementById('no-btn');
+            var yesRect = yesBtn.getBoundingClientRect();
+            
+            // Put the No button right next to the Yes button natively
+            noBtn.style.left = (yesRect.right + 20) + 'px';
+            noBtn.style.top = yesRect.top + 'px';
+        });
+
+        // --- Soap Bar "No" Button Sliding Physics ---
+        function moveButton() {
+            var btn = document.getElementById('no-btn');
+            var currentX = btn.offsetLeft;
+            var currentY = btn.offsetTop;
+
+            var maxSlide = 140; 
+            var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
+            var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
+
+            var newX = currentX + offsetX;
+            var newY = currentY + offsetY;
+
+            var padding = 80;
+            if (newX < padding) newX = padding;
+            if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
+            if (newY < padding) newY = padding;
+            if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
+
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
+        }
+
+        // --- Music & GIF Sync Array ---
+        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
+        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
+        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
+        
+        var currentSongIndex = 0;
+        var audio = document.getElementById('myAudio');
+        var isPlaying = false;
+        var firstPlayStarted = false;
+
+        function startFirstPlay() {
+            if (!firstPlayStarted) {
+                audio.play();
+                isPlaying = true;
+                firstPlayStarted = true;
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        function updateSong() {
+            audio.src = songs[currentSongIndex];
+            document.getElementById('song-gif').src = gifs[currentSongIndex];
+            document.getElementById('song-title').innerText = songTitles[currentSongIndex];
+            if (isPlaying) {
+                audio.play();
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            isPlaying = true; 
+            firstPlayStarted = true;
+            updateSong();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            isPlaying = true;
+            firstPlayStarted = true;
+            updateSong();
+        }
+
+        function togglePlay() {
+            firstPlayStarted = true;
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('play-btn').innerText = "▶ Play";
+            } else {
+                audio.play();
+                isPlaying = true;
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        // --- Invisible Formspree Notification ---
+        function notifyMe(event) {
+            event.stopPropagation();
+            
+            var yesBtn = document.getElementById('yes-btn');
+            yesBtn.innerText = "Sending... ❤️";
+
+            fetch("https://formspree.io/f/xeewqyjp", {
+                method: "POST",
+                body: JSON.stringify({ Status: "SHE SAID YES! 😍" }),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function() {
+                alert("Yay! I can't wait! 🥰❤️");
+                yesBtn.innerText = "Yes!";
+            }).catch(function() {
+                alert("Yay! I can't wait! 🥰❤️");
+                yesBtn.innerText = "Yes!";
+            });
+        }
+    </script>
+</body>
+</html>
