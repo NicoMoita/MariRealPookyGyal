@@ -44,9 +44,9 @@
             letter-spacing: -1px;
         }
 
-        /* Braum GIF (Twice as big, no borders!) */
+        /* Braum GIF */
         .header-gif {
-            height: 200px; /* Up from 90px */
+            height: 200px; 
             width: auto;
             transform: rotate(4deg);
         }
@@ -180,7 +180,7 @@
             align-items: stretch;
             gap: 15px;
             box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
-            width: auto; /* Allow player to grow as wide as needed */
+            width: auto; 
             max-width: 95vw;
         }
         
@@ -205,9 +205,9 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Side GIF (Made much wider!) */
+        /* Side GIF */
         .player-gif-side {
-            width: 190px; /* Up from 130px */
+            width: 190px; 
             height: 100%;
             min-height: 150px;
             object-fit: cover;
@@ -286,9 +286,10 @@
     </audio>
 
     <script>
-        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
-        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
-        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
+        // --- Added the 4th song and 4th GIF right here! ---
+        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3'];
+        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif', 'gif4.gif'];
+        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3', '🎵 Song 4']; 
         
         var currentSongIndex = 0;
         var audio = document.getElementById('myAudio');
