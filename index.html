@@ -103,8 +103,9 @@
             display: block;
             font-weight: 600;
             margin-top: 5px;
-            text-shadow: none; /* Shadow removed here */
-            color: #444444; /* Dark grey to stand out on background */
+            color: white; 
+            -webkit-text-stroke: 1px #000; /* Clean thin black outline */
+            text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; /* Outline fallback */
         }
 
         .header-gif {
@@ -433,8 +434,8 @@
         /* ========================================= */
         @media (max-width: 768px) {
             body { 
-                justify-content: flex-start; /* Pushes content to the top */
-                padding-top: 8vh; /* Smooth distance from the top */
+                justify-content: flex-start; 
+                padding-top: 8vh; 
                 padding-bottom: 0px; 
             }
             .tap-text { font-size: 1.8rem; padding: 15px 25px; }
@@ -458,9 +459,14 @@
             .music-player { 
                 padding: 15px; 
                 gap: 12px; 
-                width: 96vw; /* Stretches across the phone */
+                width: 100vw; 
                 max-width: none;
-                bottom: 20px; 
+                bottom: 0; 
+                left: 0; 
+                border-radius: 20px 20px 0 0; 
+                border-left: none;
+                border-right: none;
+                border-bottom: none;
             }
             .player-left { width: 50%; }
             .player-right { width: 50%; }
