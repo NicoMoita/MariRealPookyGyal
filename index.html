@@ -27,6 +27,7 @@
             padding-bottom: 300px; 
         }
 
+        /* --- THE WELCOME OVERLAY --- */
         #start-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #111111; z-index: 9999;
@@ -47,46 +48,21 @@
         .esnupi-subtitle { font-size: 2rem; display: block; font-weight: 600; margin-top: 5px; color: white; -webkit-text-stroke: 1px #000; text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
         .header-gif { height: 450px; width: auto; transform: rotate(4deg); }
 
-        /* --- POKEMON STYLE SPEECH BUBBLE --- */
         .question-box {
-            background: #ffffff;
-            color: #000000;
-            padding: 25px;
-            font-family: 'VT323', monospace; 
-            font-size: 1.8rem;
-            max-width: 85%;
-            width: 520px;
-            border: 4px solid #000000;
-            border-radius: 20px; /* Rounded corners */
-            position: relative;
-            z-index: 5;
+            background: #ffffff; color: #000000; padding: 25px; font-family: 'VT323', monospace; font-size: 1.8rem;
+            max-width: 85%; width: 520px; border: 4px solid #000000; border-radius: 20px; position: relative; z-index: 5;
         }
-        /* Bubble Tail */
         .question-box::after {
-            content: "";
-            position: absolute;
-            bottom: -20px; left: 50px;
-            border-width: 20px 20px 0 0;
-            border-style: solid;
-            border-color: #000 transparent;
-            display: block; width: 0;
+            content: ""; position: absolute; bottom: -20px; left: 50px;
+            border-width: 20px 20px 0 0; border-style: solid; border-color: #000 transparent; display: block; width: 0;
         }
 
         .parenthesis-text { font-size: 1.3rem; font-weight: 400; display: block; margin-top: 6px; color: #444444; }
 
         .button-area { position: relative; height: 75px; width: 100%; display: flex; justify-content: center; align-items: center; margin-top: 20px; z-index: 6; }
         #yes-btn { position: relative; background: transparent; border: none; padding: 0; margin: 0; width: 150px; height: 75px; cursor: pointer; }
-
         .punk-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 24px; border: 4px solid #000; border-radius: 4px; transition: all 0.2s ease; }
-
-        /* --- SPREAD APART DOTS --- */
-        .yellow-dots {
-            background-color: transparent;
-            background-image: radial-gradient(#ffea00 20%, transparent 25%);
-            background-size: 40px 40px; /* Increased spacing */
-            border: none; z-index: 1; opacity: 0;
-        }
-
+        .yellow-dots { background-color: transparent; background-image: radial-gradient(#ffea00 20%, transparent 25%); background-size: 40px 40px; border: none; z-index: 1; opacity: 0; }
         .blue-boom { background: #00ffff; z-index: 2; border: none; clip-path: polygon(5% 20%, 25% 10%, 40% 0%, 60% 15%, 90% 5%, 80% 30%, 100% 50%, 80% 70%, 95% 90%, 65% 80%, 45% 100%, 25% 85%, 0% 95%, 15% 65%, 0% 45%, 20% 40%); opacity: 0; }
         .red-boom { background: #ff00ff; z-index: 3; border: none; clip-path: polygon(10% 15%, 30% 5%, 50% 0%, 70% 10%, 95% 15%, 85% 40%, 100% 60%, 80% 80%, 90% 100%, 60% 90%, 40% 100%, 20% 90%, 5% 100%, 15% 70%, 0% 50%, 20% 35%); opacity: 0; }
         .green-layer { background: #23c45e; color: white; z-index: 4; box-shadow: 5px 5px 0px #000; }
@@ -98,42 +74,40 @@
 
         #no-btn { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 24px; padding: 0; margin: 0; display: flex; justify-content: center; align-items: center; width: 150px; height: 75px; background-color: #f44336; color: white; border: 4px solid #000; border-radius: 4px; position: fixed; box-shadow: 5px 5px 0px #000; z-index: 6; cursor: pointer; }
 
-        .music-player { position: fixed; bottom: 0; left: 0; background: rgba(15, 15, 15, 0.85); padding: 15px; border-radius: 20px 20px 0 0; backdrop-filter: blur(12px); border: 2px solid rgba(255, 255, 255, 0.1); z-index: 10; display: flex; align-items: stretch; gap: 15px; width: 100vw; }
-        .player-left { display: flex; flex-direction: column; width: 50%; }
-        .player-right { display: flex; align-items: center; justify-content: center; width: 50%; }
+        .music-player { position: fixed; bottom: 25px; background: rgba(15, 15, 15, 0.85); padding: 15px; border-radius: 20px; backdrop-filter: blur(12px); border: 2px solid rgba(255, 255, 255, 0.1); z-index: 10; display: flex; align-items: stretch; gap: 15px; width: auto; max-width: 95vw; }
+        .player-left { display: flex; flex-direction: column; width: 220px; }
+        .player-right { display: flex; align-items: center; justify-content: center; }
         .cassette-container { position: relative; width: 100%; margin-top: 18px; }
         .player-gif-top { width: 100%; height: 90px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.2); }
-        
         .tape-btn { width: 32px; height: 22px; background: #fff; border-radius: 2px; position: relative; transition: all 0.1s; box-shadow: 0 2px 2px #000; }
         .tape-btn.active-btn { background: #ff0000; transform: translateY(4px); }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
+            body { justify-content: flex-start; padding-top: 8vh; padding-bottom: 0px; }
             .header-gif { height: 200px; }
             .question-box { font-size: 1.4rem; padding: 15px; width: 92%; }
+            #yes-btn, #no-btn { width: 140px; height: 65px; font-size: 20px; }
+            
+            /* --- 94% Width Music Player --- */
+            .music-player { 
+                padding: 15px; gap: 12px; 
+                width: 94vw; left: 3vw; 
+                bottom: 20px; border-radius: 20px;
+            }
+            .player-controls button { flex: 1; font-size: 11px; padding: 8px 0; }
         }
     </style>
 </head>
 <body>
-    <div id="start-overlay" onclick="startExperience()">
-        <div class="tap-text">Tap to Open! ;)</div>
-    </div>
-
-    <img src="star4.gif" alt="Star" class="star-decoration star-top-left">
-    <img src="star2.gif" alt="Star" class="star-decoration star-bottom-left">
-    <img src="star1.gif" alt="Star" class="star-decoration star-top-right">
-    <img src="star3.gif" alt="Star" class="star-decoration star-bottom-right">
-
+    <div id="start-overlay" onclick="startExperience()"><div class="tap-text">Tap to Open! ;)</div></div>
     <div class="header-container">
         <h1>Olá, Mari!<span class="esnupi-subtitle">(Minina Esnupi)</span></h1>
         <img src="braum.gif" alt="Braum" class="header-gif">
     </div>
-
     <div class="question-box">
         Queres ir dar um passeio e comer gelado?
         <span class="parenthesis-text">*Também pode ser pão de alho</span>
     </div>
-
     <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">
             <div class="punk-layer yellow-dots"></div>
@@ -143,7 +117,6 @@
         </button>
         <button id="no-btn">Não</button>
     </div>
-
     <div class="music-player">
         <div class="player-left">
             <div class="cassette-container">
@@ -165,11 +138,11 @@
             <img id="dynamic-gif" class="player-gif-side" src="gif1.gif" style="width:100%; border-radius:10px;">
         </div>
     </div>
-
     <audio id="myAudio" preload="auto"><source src="music.mp3" type="audio/mpeg"></audio>
     <audio id="clickAudio" preload="auto"><source src="cassette.mp3" type="audio/mpeg"></audio>
 
     <script>
+        // Same JS as before...
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3'];
         var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif', 'gif4.gif'];
         var currentSongIndex = 0, audio = document.getElementById('myAudio'), clickAudio = document.getElementById('clickAudio'), isPlaying = false, hasMoved = false, mobileSlipCount = 0;
@@ -180,19 +153,19 @@
             audio.play().then(() => isPlaying = true);
         }
 
+        // Logic (moveButton, updateSong, etc) remains the same
         function moveButton() {
-            hasMoved = true;
+            hasMoved = true; 
             var btn = document.getElementById('no-btn');
-            var newX = Math.random() * (window.innerWidth - 160) + 5;
-            var newY = Math.random() * (window.innerHeight - 300) + 150;
-            btn.style.left = newX + 'px'; btn.style.top = newY + 'px';
+            btn.style.left = Math.random() * (window.innerWidth - 160) + 5 + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 300) + 150 + 'px';
         }
 
         document.getElementById('no-btn').addEventListener('mouseover', () => { if(window.innerWidth > 768) moveButton(); });
         document.getElementById('no-btn').addEventListener('touchstart', (e) => {
             if(window.innerWidth <= 768) {
                 e.preventDefault();
-                if(mobileSlipCount < 5) { mobileSlipCount++; moveButton(); }
+                if(mobileSlipCount < 4) { mobileSlipCount++; moveButton(); }
                 else notifyNo();
             }
         });
