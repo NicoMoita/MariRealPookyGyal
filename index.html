@@ -356,7 +356,7 @@
             </div>
         </button>
         
-        <button id="no-btn" onmouseover="moveButton()" onclick="notifyNo(event)">Não</button>
+        <button id="no-btn">Não</button>
     </div>
 
     <div class="music-player" onclick="event.stopPropagation()">
@@ -391,6 +391,9 @@
         var isPlaying = false;
         var firstPlayStarted = false;
         var hasMoved = false; 
+        
+        // New tracker for mobile taps!
+        var mobileSlipCount = 0;
 
         document.addEventListener('click', startFirstPlay);
         document.addEventListener('touchstart', startFirstPlay);
@@ -409,6 +412,38 @@
 
         window.addEventListener('DOMContentLoaded', function() {
             snapButtons();
+            
+            // --- NEW DYNAMIC 'NAO' BUTTON LOGIC ---
+            var noBtn = document.getElementById('no-btn');
+            
+            // Desktop Hover Behavior
+            noBtn.addEventListener('mouseover', function(e) {
+                if (window.innerWidth > 768) {
+                    moveButton();
+                }
+            });
+
+            // Desktop Click Behavior
+            noBtn.addEventListener('click', function(e) {
+                if (window.innerWidth > 768) {
+                    notifyNo(e);
+                }
+            });
+
+            // Mobile Tap Behavior (3 Slips -> Then Catch)
+            noBtn.addEventListener('touchstart', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault(); // Prevents fake mouseover bugs on phones
+                    
+                    if (mobileSlipCount < 3) {
+                        mobileSlipCount++;
+                        moveButton();
+                    } else {
+                        notifyNo(e);
+                    }
+                }
+            });
+
             audio.addEventListener('ended', function() {
                 nextSong();
             });
@@ -499,36 +534,36 @@
             startFirstPlay(); 
             
             var greenLayer = document.querySelector('.green-layer');
-            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... ️</div>";
+            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... </div>";
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
                 body: JSON.stringify({ Status: "SHE SAID YES! 😍" }),
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
-                alert("Yay! I can't wait! :)) We'll be in contact shortly");
+                alert("Yay! I can't wait! 🥰❤️");
                 greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
             }).catch(function() {
-                alert(("Yay! I can't wait! :)) We'll be in contact shortly");
+                alert("Yay! I can't wait! 🥰❤️");
                 greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
             });
         }
 
-        // NO Notification updated per your request!
+        // NO Notification
         function notifyNo(event) {
             event.stopPropagation();
             startFirstPlay(); 
             
             var noBtn = document.getElementById('no-btn');
-            noBtn.innerText = "A enviar...:/"; // Updated text
+            noBtn.innerText = "That's ok :/"; 
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
-                body: JSON.stringify({ Status: "Nope" }), // Secret message to Formspree
+                body: JSON.stringify({ Status: "Nope" }), 
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
                 alert("That's ok :/");
-                noBtn.innerText = "Não"; // Resets back to normal after the alert
+                noBtn.innerText = "Não"; 
             }).catch(function() {
                 alert("That's ok :/");
                 noBtn.innerText = "Não";
