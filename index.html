@@ -7,10 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=VT323&display=swap" rel="stylesheet">
-    
+
     <style>
         * { box-sizing: border-box; }
-        
+
         body { 
             text-align: center; 
             font-family: 'Poppins', sans-serif; 
@@ -20,12 +20,63 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Centered for Desktop */
+            justify-content: center;
             align-items: center;
             margin: 0;
             overflow: hidden;
             padding-bottom: 300px; 
         }
+
+        /* --- THE NEW WELCOME OVERLAY --- */
+        #start-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #111111;
+            z-index: 9999; /* Keeps it above absolutely everything */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.6s ease;
+            cursor: pointer;
+        }
+
+        .tap-text {
+            font-family: 'VT323', monospace;
+            font-size: 2.5rem;
+            color: #ffffff;
+            background: #000000;
+            padding: 20px 40px;
+            border: 4px solid #ffffff;
+            box-shadow: 8px 8px 0px #ff00ff; /* Punk magenta shadow */
+            animation: pulseText 1.5s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* --- MASSIVE Floating Stars Decor --- */
+        .star-decoration {
+            position: absolute;
+            width: 350px; 
+            height: auto;
+            z-index: 0; 
+            opacity: 0.6; 
+            animation: floatStar 4s ease-in-out infinite;
+            pointer-events: none; 
+        }
+
+        @keyframes floatStar {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(8deg); }
+        }
+
+        .star-top-left { top: 2%; left: 2%; animation-delay: 0s; }
+        .star-top-right { top: 4%; right: 2%; animation-delay: 1.5s; }
+        .star-bottom-left { bottom: 10%; left: 2%; animation-delay: 0.8s; }
+        .star-bottom-right { bottom: 8%; right: 2%; animation-delay: 2.2s; }
 
         .header-container {
             display: flex;
@@ -34,6 +85,7 @@
             gap: 25px;
             margin-bottom: 20px; 
             padding: 0 20px;
+            z-index: 5;
         }
 
         h1 { 
@@ -103,7 +155,7 @@
             margin-top: 6px;
             color: #444444;
         }
-        
+
         .button-area {
             position: relative;
             height: 75px; 
@@ -114,7 +166,7 @@
             margin-top: -4px; 
             z-index: 6; 
         }
-        
+
         #yes-btn { 
             position: relative;
             background: transparent;
@@ -126,6 +178,7 @@
             cursor: pointer;
         }
 
+        /* --- THE SPIDER-PUNK LAYERS --- */
         .punk-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -137,31 +190,37 @@
             font-size: 24px;
             border: 4px solid #000;
             border-radius: 4px;
-            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease;
+            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
         .yellow-dots {
             background-color: transparent;
-            background-image: radial-gradient(#ffea00 35%, transparent 40%);
-            background-size: 14px 14px;
+            background-image: 
+                radial-gradient(#ffea00 30%, transparent 35%),
+                radial-gradient(#ffea00 20%, transparent 25%);
+            background-size: 16px 16px, 22px 22px;
+            background-position: 0 0, 8px 8px;
             border: none; 
             z-index: 1;
             opacity: 0;
             transform: scale(0.8);
+            clip-path: polygon(10% 5%, 35% 0%, 55% 15%, 85% 5%, 100% 30%, 90% 55%, 95% 85%, 65% 100%, 40% 90%, 15% 95%, 0% 70%, 10% 40%);
         }
 
         .blue-boom {
-            background: #1a75ff;
+            background: #00ffff;
             z-index: 2;
-            clip-path: polygon(2% 8%, 100% 0%, 90% 40%, 100% 85%, 88% 95%, 15% 100%, 0% 40%);
+            border: none;
+            clip-path: polygon(5% 20%, 25% 10%, 40% 0%, 60% 15%, 90% 5%, 80% 30%, 100% 50%, 80% 70%, 95% 90%, 65% 80%, 45% 100%, 25% 85%, 0% 95%, 15% 65%, 0% 45%, 20% 40%);
             opacity: 0;
             transform: scale(0.8);
         }
 
         .red-boom {
-            background: #ff0022;
+            background: #ff00ff;
             z-index: 3;
-            clip-path: polygon(5% 0%, 95% 10%, 100% 80%, 75% 95%, 10% 98%, 0% 50%);
+            border: none;
+            clip-path: polygon(10% 15%, 30% 5%, 50% 0%, 70% 10%, 95% 15%, 85% 40%, 100% 60%, 80% 80%, 90% 100%, 60% 90%, 40% 100%, 20% 90%, 5% 100%, 15% 70%, 0% 50%, 20% 35%);
             opacity: 0;
             transform: scale(0.8);
         }
@@ -186,30 +245,38 @@
             margin-top: 2px;
             letter-spacing: 0.5px;
             font-family: 'Poppins', sans-serif;
+            transition: color 0.15s ease;
         }
-        
+
         #yes-btn:hover .green-layer {
-            background-color: #00ff66;
-            color: #000; 
-            transform: scale(1.15) rotate(-5deg); 
-            box-shadow: 6px 6px 0px #000;
+            background-color: #111; 
+            color: #fff; 
+            transform: scale(1.15) rotate(-4deg); 
+            box-shadow: 8px 8px 0px #ffea00; 
+            border-color: #111;
+            clip-path: polygon(2% 2%, 98% 0%, 100% 98%, 0% 96%); 
         }
-        
+
+        #yes-btn:hover .sim-text-wrapper span {
+            text-shadow: 1.5px 1.5px 0px #00ffff, -1.5px -1.5px 0px #ff00ff; 
+            letter-spacing: 0.5px; 
+        }
+
         #yes-btn:hover .red-boom {
             opacity: 1;
-            transform: scale(1.25) translate(-15px, 15px) rotate(8deg);
+            transform: scale(1.35) translate(-12px, 15px) rotate(18deg);
         }
-        
+
         #yes-btn:hover .blue-boom {
             opacity: 1;
-            transform: scale(1.3) translate(18px, -12px) rotate(-10deg);
+            transform: scale(1.4) translate(15px, -10px) rotate(-15deg);
         }
 
         #yes-btn:hover .yellow-dots {
             opacity: 1;
-            transform: scale(1.6);
+            transform: scale(1.7) rotate(12deg); 
         }
-        
+
         #no-btn { 
             font-family: 'Poppins', sans-serif;
             font-weight: 800;
@@ -249,7 +316,7 @@
             width: auto; 
             max-width: 95vw;
         }
-        
+
         .player-left {
             display: flex;
             flex-direction: column;
@@ -263,10 +330,54 @@
         }
 
         .cassette-container {
-            position: relative;
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
             width: 100%;
             margin-bottom: 12px;
-            margin-top: 18px; 
+        }
+
+        .track-indicators {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 0px; 
+            z-index: 1;
+        }
+
+        .tape-btn {
+            width: 32px;
+            height: 22px; 
+            background: linear-gradient(to bottom, #ffffff, #b3b3b3);
+            border-radius: 4px 4px 0 0; 
+            position: relative;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.15s ease;
+            box-shadow: inset 0px 2px 2px rgba(255,255,255,0.8), 0px -2px 4px rgba(0,0,0,0.5); 
+            z-index: 1;
+        }
+
+        .tape-btn::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #999999, #e6e6e6);
+            box-shadow: inset 0px 2px 4px rgba(0,0,0,0.6), 0px 1px 1px rgba(255,255,255,0.9);
+            transition: background 0.15s ease;
+        }
+
+        .tape-btn.active-btn {
+            transform: translateY(6px); 
+            background: linear-gradient(to bottom, #ff4d4d, #b30000);
+            box-shadow: inset 0px 2px 2px rgba(255,100,100,0.8), 0px -1px 2px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        .tape-btn.active-btn::after {
+            background: linear-gradient(to bottom, #800000, #ff3333);
         }
 
         .player-gif-top {
@@ -277,65 +388,7 @@
             display: block;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
-            z-index: 3;
-        }
-
-        .track-indicators {
-            position: absolute;
-            top: -22px; 
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 6px;
-            z-index: 1;
-        }
-
-        .tape-btn {
-            width: 28px;
-            height: 38px;
-            background-color: #0f0f0f;
-            border: 2px solid #000;
-            border-bottom: none;
-            border-radius: 2px 2px 0 0;
-            position: relative;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 2px 0px 4px rgba(0,0,0,0.5);
-        }
-
-        .tape-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 20px;
-            background: linear-gradient(to bottom, #e8e8e8, #999999);
-            border-bottom: 2px solid #111;
-            border-radius: 1px 1px 0 0;
-            transition: background 0.15s ease;
-        }
-
-        .tape-btn::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #888888, #cccccc);
-            box-shadow: inset 0px 3px 5px rgba(0,0,0,0.7), 0px 1px 1px rgba(255,255,255,0.6);
-            transition: background 0.15s ease;
-        }
-
-        .tape-btn.active-btn {
-            transform: translateY(12px); 
-        }
-        
-        .tape-btn.active-btn::before {
-            background: linear-gradient(to bottom, #cccccc, #777777); 
-        }
-        .tape-btn.active-btn::after {
-            background: linear-gradient(to bottom, #666666, #aaaaaa);
+            z-index: 3; 
         }
 
         .player-gif-side {
@@ -346,7 +399,7 @@
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .player-controls { display: flex; justify-content: center; gap: 8px; }
         .player-controls button { 
             font-size: 13px; 
@@ -366,18 +419,23 @@
         }
 
         /* ========================================= */
-        /* 📱 MOBILE RESPONSIVENESS UPDATES 📱       */
+        /* 📱 UPDATED MOBILE RESPONSIVENESS RULES 📱 */
         /* ========================================= */
         @media (max-width: 768px) {
             body { 
-                justify-content: flex-start; /* Pushes everything to the top */
-                padding-top: 10vh; /* Smooth distance from the top of the screen */
-                padding-bottom: 0px; /* Removes old spacing */
+                justify-content: flex-start; /* Pushes content to the top */
+                padding-top: 8vh; /* Smooth distance from the top */
+                padding-bottom: 0px; 
             }
+            .tap-text { font-size: 1.8rem; padding: 15px 25px; }
+            .star-decoration { width: 180px; }
+            .star-top-left { top: 1%; left: 1%; }
+            .star-top-right { top: 2%; right: 1%; }
+            .star-bottom-left { bottom: 15%; left: 1%; }
+            .star-bottom-right { bottom: 12%; right: 1%; }
+            
             .header-container { gap: 10px; margin-bottom: 20px; }
             h1 { font-size: 2.8rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-            
-            /* GIF sizing tweaks to balance the layout */
             .header-gif { height: 200px; }
             
             .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
@@ -385,11 +443,11 @@
             .button-area { height: 65px; }
             .sim-tiny-text { font-size: 0.55rem; }
             
-            /* The Media Player is now huge and wide on mobile */
+            /* Wide Media Player */
             .music-player { 
                 padding: 15px; 
                 gap: 12px; 
-                width: 96vw; /* Stretches almost the full width */
+                width: 96vw; /* Stretches across the phone */
                 max-width: none;
                 bottom: 20px; 
             }
@@ -398,19 +456,29 @@
             .player-gif-side { width: 100%; min-height: 130px; height: 100%; }
             .player-gif-top { height: 85px; }
             
-            /* Buttons stretch cleanly inside the wider player */
+            /* Flexing the controls equally */
             .player-controls { width: 100%; gap: 6px; }
             .player-controls button { flex: 1; font-size: 12px; padding: 10px 0; }
             
-            /* Adjust Retro Buttons for the scaled up cassette */
             .cassette-container { margin-top: 18px; }
             .track-indicators { top: -20px; gap: 5px; }
-            .tape-btn { width: 26px; height: 34px; }
-            .tape-btn::after { width: 12px; height: 12px; top: 3px; }
+            .tape-btn { width: 26px; height: 18px; }
+            .tape-btn::after { width: 10px; height: 10px; top: 3px; }
         }
     </style>
 </head>
 <body>
+
+    <div id="start-overlay" onclick="startExperience()">
+        <div class="tap-text">Tap to Open! 💌</div>
+    </div>
+
+    <img src="star4.gif" alt="Star" class="star-decoration star-top-left">
+    <img src="star3.gif" alt="Star" class="star-decoration star-top-right">
+    <img src="star1.gif" alt="Star" class="star-decoration star-top-right">
+    <img src="star2.gif" alt="Star" class="star-decoration star-bottom-left">
+    <img src="star1.gif" alt="Star" class="star-decoration star-bottom-right">
+    <img src="star3.gif" alt="Star" class="star-decoration star-bottom-right">
 
     <div class="header-container">
         <h1>Olá minina esnupi!</h1>
@@ -420,14 +488,14 @@
     <div class="question-box">
         Queres ir dar um passeio e comer gelado?
         <span class="parenthesis-text">(Pode ser pão de alho)</span>
+        <span class="parenthesis-text">(Também pode ser pão de alho)</span>
     </div>
-    
+
     <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">
             <div class="punk-layer yellow-dots"></div>
             <div class="punk-layer blue-boom"></div>
             <div class="punk-layer red-boom"></div>
-            
             <div class="punk-layer green-layer">
                 <div class="sim-text-wrapper">
                     <span>Sim!</span>
@@ -435,19 +503,21 @@
                 </div>
             </div>
         </button>
-        
         <button id="no-btn">Não</button>
     </div>
 
     <div class="music-player" onclick="event.stopPropagation()">
-        
         <div class="player-left">
             <div class="cassette-container">
                 <div class="track-indicators">
-                    <div class="tape-btn active-btn"></div> <div class="tape-btn"></div>            <div class="tape-btn"></div>            <div class="tape-btn"></div>            </div>
+                    <div class="tape-btn active-btn"></div>
+                    <div class="tape-btn"></div>
+                    <div class="tape-btn"></div>
+                    <div class="tape-btn"></div>
+                </div>
                 <img class="player-gif-top" src="static.gif" alt="Static Top GIF">
             </div>
-            
+
             <div class="player-controls">
                 <button onclick="prevSong()">⏮ Back</button>
                 <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
@@ -458,34 +528,54 @@
         <div class="player-right">
             <img id="dynamic-gif" class="player-gif-side" src="gif1.gif" alt="Dynamic Visualizer">
         </div>
-
     </div>
 
     <audio id="myAudio" preload="auto">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
+    <audio id="clickAudio" preload="auto">
+        <source src="cassette.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3'];
         var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif', 'gif4.gif'];
-        
+
         var currentSongIndex = 0;
         var audio = document.getElementById('myAudio');
+        var clickAudio = document.getElementById('clickAudio');
         var isPlaying = false;
         var firstPlayStarted = false;
         var hasMoved = false; 
-        
         var mobileSlipCount = 0;
 
-        document.addEventListener('click', startFirstPlay);
-        document.addEventListener('touchstart', startFirstPlay);
+        function startExperience() {
+            var overlay = document.getElementById('start-overlay');
+            overlay.style.opacity = '0';
+
+            setTimeout(function() { 
+                overlay.style.display = 'none'; 
+            }, 600);
+
+            if (!firstPlayStarted) {
+                firstPlayStarted = true; 
+                audio.play().then(function() {
+                    isPlaying = true;
+                    document.getElementById('play-btn').innerText = "⏸ Pause";
+                }).catch(function(error) {
+                    firstPlayStarted = false; 
+                    console.log("Audio waiting for a specific layout click.");
+                });
+            }
+        }
 
         function snapButtons() {
             if (!hasMoved) { 
                 var yesBtn = document.getElementById('yes-btn');
                 var noBtn = document.getElementById('no-btn');
                 var yesRect = yesBtn.getBoundingClientRect();
-                
+
                 var gap = window.innerWidth < 768 ? 15 : 25; 
                 noBtn.style.left = (yesRect.right + gap) + 'px';
                 noBtn.style.top = yesRect.top + 'px';
@@ -494,9 +584,9 @@
 
         window.addEventListener('DOMContentLoaded', function() {
             snapButtons();
-            
+
             var noBtn = document.getElementById('no-btn');
-            
+
             noBtn.addEventListener('mouseover', function(e) {
                 if (window.innerWidth > 768) {
                     moveButton();
@@ -512,7 +602,7 @@
             noBtn.addEventListener('touchstart', function(e) {
                 if (window.innerWidth <= 768) {
                     e.preventDefault(); 
-                    
+
                     if (mobileSlipCount < 3) {
                         mobileSlipCount++;
                         moveButton();
@@ -529,23 +619,9 @@
 
         window.addEventListener('resize', snapButtons);
 
-        function startFirstPlay() {
-            if (!firstPlayStarted) {
-                firstPlayStarted = true; 
-                audio.play().then(function() {
-                    isPlaying = true;
-                    document.getElementById('play-btn').innerText = "⏸ Pause";
-                }).catch(function(error) {
-                    firstPlayStarted = false; 
-                    console.log("Audio waiting for a specific layout click.");
-                });
-            }
-        }
-
         function moveButton() {
             hasMoved = true; 
-            startFirstPlay(); 
-            
+
             var btn = document.getElementById('no-btn');
             var currentX = btn.offsetLeft;
             var currentY = btn.offsetTop;
@@ -568,9 +644,12 @@
         }
 
         function updateSong() {
+            clickAudio.currentTime = 0; 
+            clickAudio.play().catch(function(e) { console.log("Click sound blocked"); });
+
             audio.src = songs[currentSongIndex];
             document.getElementById('dynamic-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
-            
+
             var btns = document.querySelectorAll('.tape-btn');
             btns.forEach(function(btn, index) {
                 if(index === currentSongIndex) {
@@ -579,7 +658,7 @@
                     btn.classList.remove('active-btn');
                 }
             });
-            
+
             if (isPlaying) {
                 audio.play();
                 document.getElementById('play-btn').innerText = "⏸ Pause";
@@ -615,8 +694,7 @@
 
         function notifyMe(event) {
             event.stopPropagation();
-            startFirstPlay(); 
-            
+
             var greenLayer = document.querySelector('.green-layer');
             greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... ❤️</div>";
 
@@ -635,8 +713,7 @@
 
         function notifyNo(event) {
             event.stopPropagation();
-            startFirstPlay(); 
-            
+
             var noBtn = document.getElementById('no-btn');
             noBtn.innerText = "That's ok :/"; 
 
