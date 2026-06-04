@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olá, minina esnupi!</title>
+    <title>Olá minina esnupi!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
@@ -24,7 +24,8 @@
             align-items: center;
             margin: 0;
             overflow: hidden;
-            padding-bottom: 260px; 
+            /* Increased padding to push everything up higher */
+            padding-bottom: 300px; 
         }
 
         .header-container {
@@ -36,21 +37,14 @@
             padding: 0 20px;
         }
 
-        .title-box {
-            background: #ffffff;
-            color: #000000;
-            padding: 10px 30px;
-            border-radius: 12px;
-            border: 4px solid #000000;
-            box-shadow: 6px 6px 0px #000000;
-        }
-        
+        /* Restored original text styling without the box */
         h1 { 
             font-weight: 800;
             font-size: 3.8rem;
+            color: white;
+            text-shadow: 5px 5px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000; 
             margin: 0; 
             letter-spacing: -1px;
-            color: #000000;
         }
 
         .header-gif {
@@ -98,7 +92,7 @@
             padding: 0;
             margin: 10px;
             width: 150px;
-            height: 75px; /* Made slightly taller to fit the tiny text beautifully */
+            height: 75px; 
             cursor: pointer;
         }
 
@@ -139,7 +133,6 @@
             box-shadow: 5px 5px 0px #000;
         }
         
-        /* Flex styling to cleanly stack the 'Sim' and 'Can't hurt!' texts */
         .sim-text-wrapper {
             display: flex;
             flex-direction: column;
@@ -263,9 +256,7 @@
 <body>
 
     <div class="header-container">
-        <div class="title-box">
-            <h1>Olá minina esnupi!</h1>
-        </div>
+        <h1>Olá minina esnupi!</h1>
         <img src="braum.gif" alt="Braum" class="header-gif">
     </div>
 
