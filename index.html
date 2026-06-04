@@ -263,12 +263,72 @@
             justify-content: center;
         }
 
-        /* --- Cassette & Mechanical Keys --- */
+        /* --- Updated Stacked Cassette & Mechanical Keys --- */
         .cassette-container {
-            position: relative;
+            display: flex;
+            flex-direction: column; /* Stacks the buttons ON TOP of the image */
+            align-items: center;
             width: 100%;
             margin-bottom: 12px;
-            margin-top: 18px; 
+        }
+
+        .track-indicators {
+            display: flex;
+            gap: 6px;
+            z-index: 1;
+            margin-bottom: -2px; /* Pulls them down exactly flush with the GIF border */
+        }
+
+        /* The White/Silver Base of the Inactive Key */
+        .tape-btn {
+            width: 28px;
+            height: 38px;
+            background-color: #d8d8d8; /* Light silver plastic */
+            border: 2px solid #000;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease;
+        }
+
+        /* The Metallic Cap */
+        .tape-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 20px;
+            background: linear-gradient(to bottom, #ffffff, #c0c0c0); /* Crisp white/silver */
+            border-bottom: 2px solid #111;
+            border-radius: 2px 2px 0 0;
+            transition: background 0.15s ease;
+        }
+
+        /* The Circular Thumb Groove (Indent) */
+        .tape-btn::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #aaaaaa, #ffffff);
+            box-shadow: inset 0px 3px 5px rgba(0,0,0,0.5), 0px 1px 1px rgba(255,255,255,0.8);
+            transition: background 0.15s ease;
+        }
+
+        /* Active Pressed State - Red Color Swap! */
+        .tape-btn.active-btn {
+            transform: translateY(12px); /* Physically pushed down into the cassette */
+            background-color: #880000; /* Dark red base to show shadow */
+        }
+        
+        .tape-btn.active-btn::before {
+            background: linear-gradient(to bottom, #ff3344, #cc0000); /* Vivid red top */
+        }
+        .tape-btn.active-btn::after {
+            background: linear-gradient(to bottom, #990000, #ff1a1a); /* Red indented thumb grip */
         }
 
         .player-gif-top {
@@ -279,69 +339,7 @@
             display: block;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
-            z-index: 3;
-        }
-
-        .track-indicators {
-            position: absolute;
-            top: -22px; 
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 6px;
-            z-index: 1;
-        }
-
-        /* The Black Base of the Key */
-        .tape-btn {
-            width: 28px;
-            height: 38px;
-            background-color: #0f0f0f;
-            border: 2px solid #000;
-            border-bottom: none;
-            border-radius: 2px 2px 0 0;
-            position: relative;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 2px 0px 4px rgba(0,0,0,0.5);
-        }
-
-        /* The Silver Metallic Cap */
-        .tape-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 20px;
-            background: linear-gradient(to bottom, #e8e8e8, #999999);
-            border-bottom: 2px solid #111;
-            border-radius: 1px 1px 0 0;
-            transition: background 0.15s ease;
-        }
-
-        /* The Circular Thumb Groove */
-        .tape-btn::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #888888, #cccccc);
-            box-shadow: inset 0px 3px 5px rgba(0,0,0,0.7), 0px 1px 1px rgba(255,255,255,0.6);
-            transition: background 0.15s ease;
-        }
-
-        /* Active Pressed State */
-        .tape-btn.active-btn {
-            transform: translateY(12px); 
-        }
-        
-        .tape-btn.active-btn::before {
-            background: linear-gradient(to bottom, #cccccc, #777777); 
-        }
-        .tape-btn.active-btn::after {
-            background: linear-gradient(to bottom, #666666, #aaaaaa);
+            z-index: 3; /* Keeps the top edge of the image exactly above the unpressed buttons */
         }
 
         .player-gif-side {
@@ -555,14 +553,12 @@
         }
 
         function updateSong() {
-            // Fires the mechanical click sound!
-            clickAudio.currentTime = 0; // Rewinds to start in case of fast clicking
+            clickAudio.currentTime = 0; 
             clickAudio.play().catch(function(e) { console.log("Click sound blocked by browser"); });
 
             audio.src = songs[currentSongIndex];
             document.getElementById('dynamic-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
             
-            // Updates the mechanical tape keys
             var btns = document.querySelectorAll('.tape-btn');
             btns.forEach(function(btn, index) {
                 if(index === currentSongIndex) {
