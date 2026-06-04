@@ -263,10 +263,10 @@
             justify-content: center;
         }
 
-        /* --- Updated Stacked Cassette & Mechanical Keys --- */
+        /* --- Standalone Borderless Keys --- */
         .cassette-container {
             display: flex;
-            flex-direction: column; /* Stacks the buttons ON TOP of the image */
+            flex-direction: column; /* Stacks the keys strictly ABOVE the GIF */
             align-items: center;
             width: 100%;
             margin-bottom: 12px;
@@ -274,61 +274,48 @@
 
         .track-indicators {
             display: flex;
-            gap: 6px;
+            gap: 8px;
+            margin-bottom: 0px; /* No overlap! */
             z-index: 1;
-            margin-bottom: -2px; /* Pulls them down exactly flush with the GIF border */
         }
 
-        /* The White/Silver Base of the Inactive Key */
+        /* Pure gradient and shadow styling, no harsh black borders */
         .tape-btn {
-            width: 28px;
-            height: 38px;
-            background-color: #d8d8d8; /* Light silver plastic */
-            border: 2px solid #000;
-            border-bottom: none;
-            border-radius: 4px 4px 0 0;
+            width: 32px;
+            height: 22px; /* Kept short to look like top of buttons */
+            background: linear-gradient(to bottom, #ffffff, #b3b3b3);
+            border-radius: 4px 4px 0 0; 
             position: relative;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease;
-        }
-
-        /* The Metallic Cap */
-        .tape-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 20px;
-            background: linear-gradient(to bottom, #ffffff, #c0c0c0); /* Crisp white/silver */
-            border-bottom: 2px solid #111;
-            border-radius: 2px 2px 0 0;
-            transition: background 0.15s ease;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.15s ease;
+            box-shadow: inset 0px 2px 2px rgba(255,255,255,0.8), 0px -2px 4px rgba(0,0,0,0.5); 
+            z-index: 1;
         }
 
         /* The Circular Thumb Groove (Indent) */
         .tape-btn::after {
             content: '';
             position: absolute;
-            top: 3px;
+            top: 4px;
             left: 50%;
             transform: translateX(-50%);
-            width: 14px;
-            height: 14px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: linear-gradient(to bottom, #aaaaaa, #ffffff);
-            box-shadow: inset 0px 3px 5px rgba(0,0,0,0.5), 0px 1px 1px rgba(255,255,255,0.8);
+            background: linear-gradient(to bottom, #999999, #e6e6e6);
+            box-shadow: inset 0px 2px 4px rgba(0,0,0,0.6), 0px 1px 1px rgba(255,255,255,0.9);
             transition: background 0.15s ease;
         }
 
-        /* Active Pressed State - Red Color Swap! */
+        /* Active Pressed State - Deep Red */
         .tape-btn.active-btn {
-            transform: translateY(12px); /* Physically pushed down into the cassette */
-            background-color: #880000; /* Dark red base to show shadow */
+            transform: translateY(6px); /* Pushes down towards the GIF naturally */
+            background: linear-gradient(to bottom, #ff4d4d, #b30000);
+            box-shadow: inset 0px 2px 2px rgba(255,100,100,0.8), 0px -1px 2px rgba(0,0,0,0.5);
+            z-index: 2;
         }
         
-        .tape-btn.active-btn::before {
-            background: linear-gradient(to bottom, #ff3344, #cc0000); /* Vivid red top */
-        }
         .tape-btn.active-btn::after {
-            background: linear-gradient(to bottom, #990000, #ff1a1a); /* Red indented thumb grip */
+            background: linear-gradient(to bottom, #800000, #ff3333);
         }
 
         .player-gif-top {
@@ -339,7 +326,7 @@
             display: block;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
-            z-index: 3; /* Keeps the top edge of the image exactly above the unpressed buttons */
+            z-index: 3; /* Cassette stays cleanly below the unpressed keys */
         }
 
         .player-gif-side {
@@ -385,8 +372,8 @@
             .player-gif-side { width: 100%; min-height: 110px; }
             .player-gif-top { height: 65px; }
             .player-controls button { font-size: 11px; padding: 6px 10px; }
-            .tape-btn { width: 22px; height: 32px; }
-            .tape-btn::after { width: 10px; height: 10px; top: 4px; }
+            .tape-btn { width: 26px; height: 18px; }
+            .tape-btn::after { width: 10px; height: 10px; top: 3px; }
         }
     </style>
 </head>
