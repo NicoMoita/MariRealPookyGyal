@@ -7,7 +7,7 @@
         body { 
             text-align: center; 
             font-family: 'Arial', sans-serif; 
-            background: url('https://i.pinimg.com/1200x/8a/a7/2a/8aa72a3321d0459527731ab4ee0c1c18.jpg') no-repeat center center fixed; 
+            background: url('background.jpg') no-repeat center center fixed; 
             background-size: cover;
             color: white;
             height: 100vh;
@@ -16,20 +16,57 @@
             justify-content: center;
             align-items: center;
             margin: 0;
+            overflow: hidden; /* Prevents scrollbars when the button slides */
         }
-        h1 { text-shadow: 2px 2px 4px #000; }
+        h1 { text-shadow: 2px 2px 4px #000; margin-bottom: 30px; }
+        
         button { font-size: 20px; padding: 15px 30px; margin: 10px; cursor: pointer; border: none; border-radius: 10px; }
         #yes-btn { background-color: #4CAF50; color: white; }
-        #no-btn { background-color: #f44336; color: white; position: absolute; transition: all 0.2s ease; }
+        
+        /* Soap bar effect: smooth, sliding transition curve */
+        #no-btn { 
+            background-color: #f44336; 
+            color: white; 
+            position: absolute; 
+            left: calc(50% + 70px); 
+            top: calc(50% + 35px);
+            transition: left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1); 
+        }
+
+        /* Music Player Styling */
+        .music-player {
+            position: fixed;
+            bottom: 25px;
+            background: rgba(0, 0, 0, 0.65);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+            width: 220px;
+        }
+        .music-player p { margin: 0 0 10px 0; font-size: 14px; font-weight: bold; }
+        .player-controls { display: flex; justify-content: center; gap: 5px; }
+        .player-controls button { font-size: 14px; padding: 8px 12px; margin: 0; border-radius: 5px; background: white; color: black; }
     </style>
 </head>
-<body onclick="document.getElementById('myAudio').play()">
+<body onclick="startFirstPlay()">
 
     <h1>Will you go out with me?</h1>
     
     <div>
-        <button id="yes-btn" onclick="notifyMe()">Yes!</button>
+        <button id="yes-btn" onclick="notifyMe(event)">Yes!</button>
         <button id="no-btn" onmouseover="moveButton()">No</button>
+    </div>
+
+    <!-- Mini Music Player UI -->
+    <div class="music-player" onclick="event.stopPropagation()">
+        <p id="song-title">🎵 Song 1</p>
+        <div class="player-controls">
+            <button onclick="prevSong()">⏮ Back</button>
+            <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
+            <button onclick="nextSong()">Next ⏭</button>
+        </div>
     </div>
 
     <audio id="myAudio" loop>
@@ -37,18 +74,91 @@
     </audio>
 
     <script>
+        // --- Soap Bar "No" Button Physics ---
         function moveButton() {
             var btn = document.getElementById('no-btn');
-            // Randomly position the button within the screen
-            var x = Math.random() * (window.innerWidth - 100);
-            var y = Math.random() * (window.innerHeight - 50);
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
+            
+            // Get current positions
+            var currentX = btn.offsetLeft;
+            var currentY = btn.offsetTop;
+
+            // Constrained sliding distance (nudge max 150px away)
+            var maxSlide = 150; 
+            var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
+            var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
+
+            var newX = currentX + offsetX;
+            var newY = currentY + offsetY;
+
+            // Keep it safely inside the screen padding zones
+            var padding = 60;
+            if (newX < padding) newX = padding;
+            if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
+            if (newY < padding) newY = padding;
+            if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
+
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
         }
 
-        function notifyMe() {
-            // Replace with your actual email
-            window.location.href = "mailto:nrmoita123@gmail.com?subject=SHE SAID YES!&body=She clicked Yes on your website!";
+        // --- Music Player Logic ---
+        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
+        // You can change these strings to the actual names of the songs!
+        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
+        var currentSongIndex = 0;
+        var audio = document.getElementById('myAudio');
+        var isPlaying = false;
+        var firstPlayStarted = false;
+
+        function startFirstPlay() {
+            if (!firstPlayStarted) {
+                audio.play();
+                isPlaying = true;
+                firstPlayStarted = true;
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        function updateSong() {
+            audio.src = songs[currentSongIndex];
+            document.getElementById('song-title').innerText = songTitles[currentSongIndex];
+            if (isPlaying) {
+                audio.play();
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            isPlaying = true; 
+            firstPlayStarted = true;
+            updateSong();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            isPlaying = true;
+            firstPlayStarted = true;
+            updateSong();
+        }
+
+        function togglePlay() {
+            firstPlayStarted = true;
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('play-btn').innerText = "▶ Play";
+            } else {
+                audio.play();
+                isPlaying = true;
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        // --- Notification Logic ---
+        function notifyMe(event) {
+            event.stopPropagation(); // Stops the music from resetting on click
+            window.location.href = "mailto:YOUR_EMAIL@example.com?subject=SHE SAID YES!&body=She clicked Yes on your website!";
         }
     </script>
 </body>
