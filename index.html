@@ -27,28 +27,27 @@
             padding-bottom: 300px; 
         }
 
-        /* --- Floating Stars Decor --- */
+        /* --- MASSIVE Floating Stars Decor --- */
         .star-decoration {
             position: absolute;
-            width: 440px; /* Adjust size here if they are too big/small */
+            width: 350px; /* Waaaaay bigger now! */
             height: auto;
-            z-index: 1; /* Keeps them behind the buttons but visible */
-            opacity: 0.9;
+            z-index: 0; /* Pushed fully to the background */
+            opacity: 0.6; /* Slightly faded so text remains readable */
             animation: floatStar 4s ease-in-out infinite;
-            pointer-events: none; /* Makes sure they don't block clicks */
+            pointer-events: none; /* Prevents them from blocking clicks */
         }
 
-        /* Soft floating animation */
         @keyframes floatStar {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-15px) rotate(8deg); }
         }
 
-        /* Unique positions and animation delays for a natural look */
-        .star-top-left { top: 12%; left: 12%; animation-delay: 0s; }
-        .star-top-right { top: 15%; right: 10%; animation-delay: 1.5s; }
-        .star-bottom-left { bottom: 35%; left: 15%; animation-delay: 0.8s; }
-        .star-bottom-right { bottom: 30%; right: 12%; animation-delay: 2.2s; }
+        /* Spread much further apart into the deep corners */
+        .star-top-left { top: 2%; left: 2%; animation-delay: 0s; }
+        .star-top-right { top: 4%; right: 2%; animation-delay: 1.5s; }
+        .star-bottom-left { bottom: 10%; left: 2%; animation-delay: 0.8s; }
+        .star-bottom-right { bottom: 8%; right: 2%; animation-delay: 2.2s; }
 
         .header-container {
             display: flex;
@@ -379,12 +378,12 @@
         @media (max-width: 768px) {
             body { padding-bottom: 220px; }
             
-            /* Star mobile adjustments */
-            .star-decoration { width: 35px; }
-            .star-top-left { top: 8%; left: 5%; }
-            .star-top-right { top: 10%; right: 5%; }
-            .star-bottom-left { bottom: 25%; left: 5%; }
-            .star-bottom-right { bottom: 22%; right: 5%; }
+            /* Responsive Giant Stars */
+            .star-decoration { width: 180px; }
+            .star-top-left { top: 1%; left: 1%; }
+            .star-top-right { top: 2%; right: 1%; }
+            .star-bottom-left { bottom: 15%; left: 1%; }
+            .star-bottom-right { bottom: 12%; right: 1%; }
 
             .header-container { gap: 15px; }
             h1 { font-size: 2.5rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
@@ -407,8 +406,8 @@
 <body>
 
     <img src="star1.gif" alt="Star" class="star-decoration star-top-left">
-    <img src="star2.gif" alt="Star" class="star-decoration star-top-right">
-    <img src="star3.gif" alt="Star" class="star-decoration star-bottom-left">
+    <img src="star3.gif" alt="Star" class="star-decoration star-top-right">
+    <img src="star2.gif" alt="Star" class="star-decoration star-bottom-left">
     <img src="star4.gif" alt="Star" class="star-decoration star-bottom-right">
 
     <div class="header-container">
