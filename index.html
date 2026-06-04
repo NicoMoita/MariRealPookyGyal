@@ -4,480 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Olá, Mari!</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=VT323&display=swap" rel="stylesheet">
-
     <style>
         * { box-sizing: border-box; }
-
         body { 
-            text-align: center; 
-            font-family: 'Poppins', sans-serif; 
+            text-align: center; font-family: 'Poppins', sans-serif; 
             background: url('background.jpg') no-repeat center center fixed; 
-            background-size: cover;
-            color: white;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            overflow: hidden;
-            padding-bottom: 300px; 
+            background-size: cover; color: white; height: 100vh;
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+            margin: 0; overflow: hidden; padding-top: 8vh;
         }
 
+        /* --- OVERLAY INICIAL --- */
         #start-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #111111;
-            z-index: 9999; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            transition: opacity 0.6s ease;
-            cursor: pointer;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #111111; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column; transition: opacity 0.6s ease; cursor: pointer;
         }
+        .tap-text { font-family: 'VT323', monospace; font-size: 2.5rem; color: #ffffff; background: #000000; padding: 20px 40px; border: 4px solid #ffffff; box-shadow: 8px 8px 0px #ff00ff; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-        .tap-text {
-            font-family: 'VT323', monospace;
-            font-size: 2.5rem;
-            color: #ffffff;
-            background: #000000;
-            padding: 20px 40px;
-            border: 4px solid #ffffff;
-            box-shadow: 8px 8px 0px #ff00ff;
-            animation: pulseText 1.5s infinite;
-        }
+        /* --- DECORAÇÃO ESTRELAS --- */
+        .star-decoration { position: absolute; width: 180px; z-index: 0; opacity: 0.6; pointer-events: none; }
+        .star-top-left { top: 1%; left: 1%; } .star-top-right { top: 2%; right: 1%; }
+        .star-bottom-left { bottom: 15%; left: 1%; } .star-bottom-right { bottom: 12%; right: 1%; }
 
-        @keyframes pulseText {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+        /* --- CABEÇALHO --- */
+        .header-container { display: flex; align-items: center; justify-content: center; gap: 25px; margin-bottom: 20px; z-index: 5; }
+        h1 { font-weight: 800; font-size: 3.8rem; color: white; text-shadow: 5px 5px 0px #000; margin: 0; line-height: 1.1; }
+        .esnupi-subtitle { font-size: 2rem; display: block; font-weight: 600; color: white; -webkit-text-stroke: 1px #000; }
+        .header-gif { height: 250px; transform: rotate(4deg); }
 
-        .star-decoration {
-            position: absolute;
-            width: 350px; 
-            height: auto;
-            z-index: 0; 
-            opacity: 0.6; 
-            animation: floatStar 4s ease-in-out infinite;
-            pointer-events: none; 
-        }
-
-        @keyframes floatStar {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(8deg); }
-        }
-
-        .star-top-left { top: 2%; left: 2%; animation-delay: 0s; }
-        .star-top-right { top: 4%; right: 2%; animation-delay: 1.5s; }
-        .star-bottom-left { bottom: 10%; left: 2%; animation-delay: 0.8s; }
-        .star-bottom-right { bottom: 8%; right: 2%; animation-delay: 2.2s; }
-
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 20px; 
-            padding: 0 20px;
-            z-index: 5;
-        }
-
-        h1 { 
-            font-weight: 800;
-            font-size: 3.8rem;
-            color: white;
-            text-shadow: 5px 5px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000; 
-            margin: 0; 
-            letter-spacing: -1px;
-            line-height: 1.1;
-        }
-
-        .esnupi-subtitle {
-            font-size: 2rem;
-            display: block;
-            font-weight: 600;
-            margin-top: 5px;
-            color: white; 
-            -webkit-text-stroke: 1px #000;
-            text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
-        }
-
-        .header-gif {
-            height: 450px; 
-            width: auto;
-            transform: rotate(4deg);
-        }
-
+        /* --- BOLHA POKÉMON --- */
         .question-box {
-            background: #ffffff;
-            color: #000000;
-            padding: 18px 30px;
-            font-family: 'VT323', monospace; 
-            font-size: 1.8rem;
-            max-width: 85%;
-            width: 520px;
-            margin-bottom: 0px; 
-            border: 4px solid #000000;
-            border-radius: 0px; 
-            box-shadow: 8px 8px 0px #000000;
-            line-height: 1.2;
-            position: relative;
-            z-index: 5;
+            background: #ffffff; color: #000000; padding: 25px;
+            font-family: 'VT323', monospace; font-size: 1.8rem;
+            max-width: 90%; width: 500px; border: 4px solid #000000;
+            border-radius: 20px; position: relative; z-index: 5;
         }
-
-        .question-box::before {
-            content: "";
-            position: absolute;
-            bottom: -16px;
-            left: 40px;
-            width: 24px;
-            height: 20px;
-            background: #ffffff;
-            border-left: 4px solid #000000;
-            border-right: 4px solid #000000;
-            z-index: 2;
-        }
-
         .question-box::after {
-            content: "";
-            position: absolute;
-            bottom: -28px;
-            left: 44px; 
-            width: 16px;
-            height: 16px;
-            background: #ffffff;
-            border-left: 4px solid #000000;
-            border-right: 4px solid #000000;
-            border-bottom: 4px solid #000000;
-            box-shadow: 8px 8px 0px #000000; 
-            z-index: 1;
+            content: ""; position: absolute; bottom: -20px; left: 50px;
+            border-width: 20px 20px 0 0; border-style: solid; border-color: #000 transparent;
         }
+        .parenthesis-text { font-size: 1.2rem; color: #555; display: block; margin-top: 10px; }
 
-        .parenthesis-text {
-            font-size: 1.3rem;
-            font-weight: 400;
-            display: block;
-            margin-top: 6px;
-            color: #444444;
-        }
+        /* --- BOTÕES --- */
+        .button-area { margin-top: 30px; display: flex; gap: 20px; z-index: 6; }
+        #yes-btn, #no-btn { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 20px; padding: 15px 30px; border: 3px solid #000; cursor: pointer; }
+        #yes-btn { background: #23c45e; color: white; }
+        #no-btn { background: #f44336; color: white; position: fixed; }
 
-        .button-area {
-            position: relative;
-            height: 75px; 
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: -4px; 
-            z-index: 6; 
+        /* --- PLAYER DE MÚSICA RETRO --- */
+        .music-player { 
+            position: fixed; bottom: 0; left: 0; width: 94vw; margin: 0 3vw 20px 3vw;
+            background: rgba(15, 15, 15, 0.85); padding: 15px; border-radius: 20px;
+            backdrop-filter: blur(12px); border: 2px solid rgba(255, 255, 255, 0.1); 
+            z-index: 10; display: flex; align-items: stretch; gap: 15px;
         }
-
-        #yes-btn { 
-            position: relative;
-            background: transparent;
-            border: none;
-            padding: 0;
-            margin: 0; 
-            width: 150px;
-            height: 75px; 
-            cursor: pointer;
-        }
-
-        .punk-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            font-size: 24px;
-            border: 4px solid #000;
-            border-radius: 4px;
-            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        /* --- SPREAD APART DOTS --- */
-        .yellow-dots {
-            background-color: transparent;
-            background-image: 
-                radial-gradient(#ffea00 30%, transparent 35%),
-                radial-gradient(#ffea00 20%, transparent 25%);
-            background-size: 32px 32px, 44px 44px; /* Doubled spacing */
-            background-position: 0 0, 16px 16px;
-            border: none; 
-            z-index: 1;
-            opacity: 0;
-            transform: scale(0.8);
-            clip-path: polygon(10% 5%, 35% 0%, 55% 15%, 85% 5%, 100% 30%, 90% 55%, 95% 85%, 65% 100%, 40% 90%, 15% 95%, 0% 70%, 10% 40%);
-        }
-
-        .blue-boom {
-            background: #00ffff;
-            z-index: 2;
-            border: none;
-            clip-path: polygon(5% 20%, 25% 10%, 40% 0%, 60% 15%, 90% 5%, 80% 30%, 100% 50%, 80% 70%, 95% 90%, 65% 80%, 45% 100%, 25% 85%, 0% 95%, 15% 65%, 0% 45%, 20% 40%);
-            opacity: 0;
-            transform: scale(0.8);
-        }
-
-        .red-boom {
-            background: #ff00ff;
-            z-index: 3;
-            border: none;
-            clip-path: polygon(10% 15%, 30% 5%, 50% 0%, 70% 10%, 95% 15%, 85% 40%, 100% 60%, 80% 80%, 90% 100%, 60% 90%, 40% 100%, 20% 90%, 5% 100%, 15% 70%, 0% 50%, 20% 35%);
-            opacity: 0;
-            transform: scale(0.8);
-        }
-
-        .green-layer {
-            background: #23c45e;
-            color: white;
-            z-index: 4;
-            box-shadow: 5px 5px 0px #000;
-        }
-
-        .sim-text-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            line-height: 1.1;
-        }
-
-        .sim-tiny-text {
-            font-size: 0.65rem;
-            font-weight: 600;
-            margin-top: 2px;
-            letter-spacing: 0.5px;
-            font-family: 'Poppins', sans-serif;
-            transition: color 0.15s ease;
-        }
-
-        #yes-btn:hover .green-layer {
-            background-color: #111; 
-            color: #fff; 
-            transform: scale(1.15) rotate(-4deg); 
-            box-shadow: 8px 8px 0px #ffea00; 
-            border-color: #111;
-            clip-path: polygon(2% 2%, 98% 0%, 100% 98%, 0% 96%); 
-        }
-
-        #yes-btn:hover .sim-text-wrapper span {
-            text-shadow: 1.5px 1.5px 0px #00ffff, -1.5px -1.5px 0px #ff00ff; 
-            letter-spacing: 0.5px; 
-        }
-
-        #yes-btn:hover .red-boom {
-            opacity: 1;
-            transform: scale(1.35) translate(-12px, 15px) rotate(18deg);
-        }
-
-        #yes-btn:hover .blue-boom {
-            opacity: 1;
-            transform: scale(1.4) translate(15px, -10px) rotate(-15deg);
-        }
-
-        #yes-btn:hover .yellow-dots {
-            opacity: 1;
-            transform: scale(1.7) rotate(12deg); 
-        }
-
-        #no-btn { 
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            font-size: 24px; 
-            padding: 0; 
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 150px; 
-            height: 75px; 
-            background-color: #f44336; 
-            color: white; 
-            border: 4px solid #000;
-            border-radius: 4px;
-            position: fixed; 
-            box-shadow: 5px 5px 0px #000;
-            z-index: 6;
-            transition: left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1); 
-            cursor: pointer;
-        }
-
-        .music-player {
-            position: fixed;
-            bottom: 25px;
-            background: rgba(15, 15, 15, 0.85);
-            padding: 15px 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            z-index: 10;
-            display: flex;
-            align-items: stretch;
-            gap: 15px;
-            box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
-            width: auto; 
-            max-width: 95vw;
-        }
-
-        .player-left {
-            display: flex;
-            flex-direction: column;
-            width: 220px;
-        }
-
-        .player-right {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cassette-container {
-            display: flex;
-            flex-direction: column; 
-            align-items: center;
-            width: 100%;
-            margin-bottom: 12px;
-        }
-
-        .track-indicators {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 0px; 
-            z-index: 1;
-        }
-
-        .tape-btn {
-            width: 32px;
-            height: 22px; 
-            background: linear-gradient(to bottom, #ffffff, #b3b3b3);
-            border-radius: 4px 4px 0 0; 
-            position: relative;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.15s ease;
-            box-shadow: inset 0px 2px 2px rgba(255,255,255,0.8), 0px -2px 4px rgba(0,0,0,0.5); 
-            z-index: 1;
-        }
-
-        .tape-btn::after {
-            content: '';
-            position: absolute;
-            top: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: linear-gradient(to bottom, #999999, #e6e6e6);
-            box-shadow: inset 0px 2px 4px rgba(0,0,0,0.6), 0px 1px 1px rgba(255,255,255,0.9);
-            transition: background 0.15s ease;
-        }
-
-        .tape-btn.active-btn {
-            transform: translateY(6px); 
-            background: linear-gradient(to bottom, #ff4d4d, #b30000);
-            box-shadow: inset 0px 2px 2px rgba(255,100,100,0.8), 0px -1px 2px rgba(0,0,0,0.5);
-            z-index: 2;
-        }
-
-        .tape-btn.active-btn::after {
-            background: linear-gradient(to bottom, #800000, #ff3333);
-        }
-
-        .player-gif-top {
-            width: 100%;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 10px;
-            display: block;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 3; 
-        }
-
-        .player-gif-side {
-            width: 190px; 
-            height: 100%;
-            min-height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .player-controls { display: flex; justify-content: center; gap: 8px; }
-        .player-controls button { 
-            font-size: 13px; 
-            padding: 8px 14px; 
-            margin: 0; 
-            border-radius: 8px; 
-            background: white; 
-            color: black; 
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-        }
-        .player-controls button:hover {
-            background: #ff0055;
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* ========================================= */
-        /* 📱 UPDATED MOBILE RESPONSIVENESS RULES 📱 */
-        /* ========================================= */
-        @media (max-width: 768px) {
-            body { 
-                justify-content: flex-start; 
-                padding-top: 8vh; 
-                padding-bottom: 0px; 
-            }
-            .tap-text { font-size: 1.8rem; padding: 15px 25px; }
-            .star-decoration { width: 180px; }
-            .star-top-left { top: 1%; left: 1%; }
-            .star-top-right { top: 2%; right: 1%; }
-            .star-bottom-left { bottom: 15%; left: 1%; }
-            .star-bottom-right { bottom: 12%; right: 1%; }
-            
-            .header-container { gap: 10px; margin-bottom: 20px; }
-            h1 { font-size: 2.8rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
-            .esnupi-subtitle { font-size: 1.5rem; }
-            .header-gif { height: 200px; }
-            
-            .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
-            #yes-btn, #no-btn { width: 140px; height: 65px; font-size: 20px; }
-            .button-area { height: 65px; }
-            .sim-tiny-text { font-size: 0.55rem; }
-            
-            .music-player { 
-                padding: 15px; 
-                gap: 12px; 
-                width: 100vw; 
-                max-width: none;
-                bottom: 0; 
-                left: 0; 
-                border-radius: 20px 20px 0 0; 
-                border-left: none;
-                border-right: none;
-                border-bottom: none;
-            }
-            .player-left { width: 50%; }
-            .player-right { width: 50%; }
-            .player-gif-side { width: 100%; min-height: 130px; height: 100%; }
-            .player-gif-top { height: 85px; }
-            
-            .player-controls { width: 100%; gap: 6px; }
-            .player-controls button { flex: 1; font-size: 12px; padding: 10px 0; }
-            
-            .cassette-container { margin-top: 18px; }
-            .track-indicators { top: -20px; gap: 5px; }
-            .tape-btn { width: 26px; height: 18px; }
-            .tape-btn::after { width: 10px; height: 10px; top: 3px; }
-        }
+        .player-left { width: 50%; display: flex; flex-direction: column; }
+        .player-right { width: 50%; }
+        .cassette-container { position: relative; margin-top: 18px; }
+        .player-gif-top { width: 100%; height: 85px; object-fit: cover; border-radius: 10px; border: 1px solid #fff; }
+        
+        /* Botões Mecânicos */
+        .track-indicators { position: absolute; top: -20px; display: flex; gap: 5px; }
+        .tape-btn { width: 26px; height: 18px; background: linear-gradient(to bottom, #fff, #b3b3b3); border-radius: 4px; box-shadow: 0 2px 2px #000; }
+        .tape-btn.active-btn { background: #ff0000; transform: translateY(4px); }
+        
+        .player-controls { display: flex; gap: 6px; margin-top: 10px; }
+        .player-controls button { flex: 1; font-size: 12px; padding: 10px 0; border-radius: 8px; border: none; }
+        .player-gif-side { width: 100%; height: 130px; object-fit: cover; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -486,17 +83,14 @@
         <div class="tap-text">Tap to Open! ;)</div>
     </div>
 
-    <img src="star4.gif" alt="Star" class="star-decoration star-top-left">
-    <img src="star2.gif" alt="Star" class="star-decoration star-bottom-left">
-    <img src="star1.gif" alt="Star" class="star-decoration star-top-right">
-    <img src="star3.gif" alt="Star" class="star-decoration star-bottom-right">
+    <img src="star4.gif" class="star-decoration star-top-left">
+    <img src="star2.gif" class="star-decoration star-bottom-left">
+    <img src="star1.gif" class="star-decoration star-top-right">
+    <img src="star3.gif" class="star-decoration star-bottom-right">
 
     <div class="header-container">
-        <h1>
-            Olá, Mari!
-            <span class="esnupi-subtitle">(Minina Esnupi)</span>
-        </h1>
-        <img src="braum.gif" alt="Braum" class="header-gif">
+        <h1>Olá, Mari!<span class="esnupi-subtitle">Minina Esnupi</span></h1>
+        <img src="braum.gif" class="header-gif">
     </div>
 
     <div class="question-box">
@@ -505,21 +99,11 @@
     </div>
 
     <div class="button-area">
-        <button id="yes-btn" onclick="notifyMe(event)">
-            <div class="punk-layer yellow-dots"></div>
-            <div class="punk-layer blue-boom"></div>
-            <div class="punk-layer red-boom"></div>
-            <div class="punk-layer green-layer">
-                <div class="sim-text-wrapper">
-                    <span>Sim!</span>
-                    <span class="sim-tiny-text">Can't hurt!</span>
-                </div>
-            </div>
-        </button>
+        <button id="yes-btn" onclick="notifyMe()">Sim!</button>
         <button id="no-btn">Não</button>
     </div>
 
-    <div class="music-player" onclick="event.stopPropagation()">
+    <div class="music-player">
         <div class="player-left">
             <div class="cassette-container">
                 <div class="track-indicators">
@@ -528,220 +112,58 @@
                     <div class="tape-btn"></div>
                     <div class="tape-btn"></div>
                 </div>
-                <img class="player-gif-top" src="static.gif" alt="Static Top GIF">
+                <img class="player-gif-top" src="static.gif">
             </div>
-
             <div class="player-controls">
-                <button onclick="prevSong()">⏮ Back</button>
-                <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
-                <button onclick="nextSong()">⏭ Next</button>
+                <button onclick="prevSong()">⏮</button>
+                <button onclick="togglePlay()" id="play-btn">⏸</button>
+                <button onclick="nextSong()">⏭</button>
             </div>
         </div>
-
         <div class="player-right">
-            <img id="dynamic-gif" class="player-gif-side" src="gif1.gif" alt="Dynamic Visualizer">
+            <img id="dynamic-gif" class="player-gif-side" src="gif1.gif">
         </div>
     </div>
 
-    <audio id="myAudio" preload="auto">
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-
-    <audio id="clickAudio" preload="auto">
-        <source src="cassette.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="myAudio" src="music.mp3" preload="auto"></audio>
+    <audio id="clickAudio" src="cassette.mp3" preload="auto"></audio>
 
     <script>
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3'];
         var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif', 'gif4.gif'];
-
-        var currentSongIndex = 0;
-        var audio = document.getElementById('myAudio');
-        var clickAudio = document.getElementById('clickAudio');
-        var isPlaying = false;
-        var firstPlayStarted = false;
-        var hasMoved = false; 
-        var mobileSlipCount = 0;
+        var currentSongIndex = 0, audio = document.getElementById('myAudio'), clickAudio = document.getElementById('clickAudio'), isPlaying = false, mobileSlipCount = 0;
 
         function startExperience() {
-            var overlay = document.getElementById('start-overlay');
-            overlay.style.opacity = '0';
-
-            setTimeout(function() { 
-                overlay.style.display = 'none'; 
-            }, 600);
-
-            if (!firstPlayStarted) {
-                firstPlayStarted = true; 
-                audio.play().then(function() {
-                    isPlaying = true;
-                    document.getElementById('play-btn').innerText = "⏸ Pause";
-                }).catch(function(error) {
-                    firstPlayStarted = false; 
-                    console.log("Audio waiting for a specific layout click.");
-                });
-            }
+            document.getElementById('start-overlay').style.opacity = '0';
+            setTimeout(() => document.getElementById('start-overlay').style.display = 'none', 600);
+            audio.play().then(() => isPlaying = true);
         }
-
-        function snapButtons() {
-            if (!hasMoved) { 
-                var yesBtn = document.getElementById('yes-btn');
-                var noBtn = document.getElementById('no-btn');
-                var yesRect = yesBtn.getBoundingClientRect();
-
-                var gap = window.innerWidth < 768 ? 15 : 25; 
-                noBtn.style.left = (yesRect.right + gap) + 'px';
-                noBtn.style.top = yesRect.top + 'px';
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', function() {
-            snapButtons();
-
-            var noBtn = document.getElementById('no-btn');
-
-            noBtn.addEventListener('mouseover', function(e) {
-                if (window.innerWidth > 768) {
-                    moveButton();
-                }
-            });
-
-            noBtn.addEventListener('click', function(e) {
-                if (window.innerWidth > 768) {
-                    notifyNo(e);
-                }
-            });
-
-            noBtn.addEventListener('touchstart', function(e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault(); 
-
-                    if (mobileSlipCount < 4) { // Changed threshold to 4 (so the 5th tap works)
-                        mobileSlipCount++;
-                        moveButton();
-                    } else {
-                        notifyNo(e);
-                    }
-                }
-            });
-
-            audio.addEventListener('ended', function() {
-                nextSong();
-            });
-        });
-
-        window.addEventListener('resize', snapButtons);
 
         function moveButton() {
-            hasMoved = true; 
-
             var btn = document.getElementById('no-btn');
-            var currentX = btn.offsetLeft;
-            var currentY = btn.offsetTop;
-
-            var maxSlide = 200; // Increased panicking distance
-            var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
-            var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
-
-            var newX = currentX + offsetX;
-            var newY = currentY + offsetY;
-
-            var padding = 80;
-            if (newX < padding) newX = padding;
-            if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
-            if (newY < padding) newY = padding;
-            if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
-
-            btn.style.left = newX + 'px';
-            btn.style.top = newY + 'px';
+            btn.style.left = Math.random() * (window.innerWidth - 160) + 5 + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 300) + 150 + 'px';
         }
+
+        document.getElementById('no-btn').addEventListener('mouseover', moveButton);
+        document.getElementById('no-btn').addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if(mobileSlipCount < 4) { mobileSlipCount++; moveButton(); }
+            else alert("Está bem... 🥺");
+        });
 
         function updateSong() {
-            clickAudio.currentTime = 0; 
-            clickAudio.play().catch(function(e) { console.log("Click sound blocked"); });
-
+            clickAudio.currentTime = 0; clickAudio.play();
             audio.src = songs[currentSongIndex];
             document.getElementById('dynamic-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
-
-            var btns = document.querySelectorAll('.tape-btn');
-            btns.forEach(function(btn, index) {
-                if(index === currentSongIndex) {
-                    btn.classList.add('active-btn');
-                } else {
-                    btn.classList.remove('active-btn');
-                }
-            });
-
-            if (isPlaying) {
-                audio.play();
-                document.getElementById('play-btn').innerText = "⏸ Pause";
-            }
+            document.querySelectorAll('.tape-btn').forEach((btn, i) => i === currentSongIndex ? btn.classList.add('active-btn') : btn.classList.remove('active-btn'));
+            if(isPlaying) audio.play();
         }
 
-        function nextSong() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            isPlaying = true; 
-            firstPlayStarted = true;
-            updateSong();
-        }
-
-        function prevSong() {
-            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-            isPlaying = true;
-            firstPlayStarted = true;
-            updateSong();
-        }
-
-        function togglePlay() {
-            firstPlayStarted = true;
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                document.getElementById('play-btn').innerText = "▶ Play";
-            } else {
-                audio.play();
-                isPlaying = true;
-                document.getElementById('play-btn').innerText = "⏸ Pause";
-            }
-        }
-
-        function notifyMe(event) {
-            event.stopPropagation();
-
-            var greenLayer = document.querySelector('.green-layer');
-            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... ❤️</div>";
-
-            fetch("https://formspree.io/f/xeewqyjp", {
-                method: "POST",
-                body: JSON.stringify({ Status: "SHE SAID YES! 😍" }),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function() {
-                alert("Yay! I can't wait! 🥰❤️");
-                greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
-            }).catch(function() {
-                alert("Yay! I can't wait! 🥰❤️");
-                greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
-            });
-        }
-
-        function notifyNo(event) {
-            event.stopPropagation();
-
-            var noBtn = document.getElementById('no-btn');
-            noBtn.innerText = "That's ok :/"; 
-
-            fetch("https://formspree.io/f/xeewqyjp", {
-                method: "POST",
-                body: JSON.stringify({ Status: "Nope" }), 
-                headers: { 'Content-Type': 'application/json' }
-            }).then(function() {
-                alert("Está bem... 🥺");
-                noBtn.innerText = "Não"; 
-            }).catch(function() {
-                alert("Está bem... 🥺");
-                noBtn.innerText = "Não";
-            });
-        }
+        function nextSong() { currentSongIndex = (currentSongIndex + 1) % songs.length; updateSong(); }
+        function prevSong() { currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length; updateSong(); }
+        function togglePlay() { if(isPlaying) { audio.pause(); isPlaying = false; } else { audio.play(); isPlaying = true; } }
+        function notifyMe() { alert("Yay! 🥰❤️"); }
     </script>
 </body>
 </html>
