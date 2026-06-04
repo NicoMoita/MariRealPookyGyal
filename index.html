@@ -232,6 +232,7 @@
             cursor: pointer;
         }
 
+        /* --- Split-Screen Music Player UI --- */
         .music-player {
             position: fixed;
             bottom: 25px;
@@ -262,12 +263,12 @@
             justify-content: center;
         }
 
-        /* --- Updated Cassette & Mechanical Keys --- */
+        /* --- Cassette & Mechanical Keys --- */
         .cassette-container {
             position: relative;
             width: 100%;
             margin-bottom: 12px;
-            margin-top: 18px; /* Room for keys on top */
+            margin-top: 18px; 
         }
 
         .player-gif-top {
@@ -283,7 +284,7 @@
 
         .track-indicators {
             position: absolute;
-            top: -22px; /* Sticks out above cassette */
+            top: -22px; 
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -316,7 +317,7 @@
             transition: background 0.15s ease;
         }
 
-        /* The Circular Thumb Groove (Indent) */
+        /* The Circular Thumb Groove */
         .tape-btn::after {
             content: '';
             position: absolute;
@@ -333,10 +334,9 @@
 
         /* Active Pressed State */
         .tape-btn.active-btn {
-            transform: translateY(12px); /* Physically pressed deep inside */
+            transform: translateY(12px); 
         }
         
-        /* Darkens slightly when pushed into the shadow of the deck */
         .tape-btn.active-btn::before {
             background: linear-gradient(to bottom, #cccccc, #777777); 
         }
@@ -387,8 +387,6 @@
             .player-gif-side { width: 100%; min-height: 110px; }
             .player-gif-top { height: 65px; }
             .player-controls button { font-size: 11px; padding: 6px 10px; }
-            
-            /* Responsive Retro Buttons for small screens */
             .tape-btn { width: 22px; height: 32px; }
             .tape-btn::after { width: 10px; height: 10px; top: 4px; }
         }
@@ -449,12 +447,17 @@
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
+    <audio id="clickAudio" preload="auto">
+        <source src="cassette.mp3" type="audio/mpeg">
+    </audio>
+
     <script>
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3'];
         var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif', 'gif4.gif'];
         
         var currentSongIndex = 0;
         var audio = document.getElementById('myAudio');
+        var clickAudio = document.getElementById('clickAudio');
         var isPlaying = false;
         var firstPlayStarted = false;
         var hasMoved = false; 
@@ -552,10 +555,14 @@
         }
 
         function updateSong() {
+            // Fires the mechanical click sound!
+            clickAudio.currentTime = 0; // Rewinds to start in case of fast clicking
+            clickAudio.play().catch(function(e) { console.log("Click sound blocked by browser"); });
+
             audio.src = songs[currentSongIndex];
             document.getElementById('dynamic-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
             
-            // Updates the mechanical tape keys!
+            // Updates the mechanical tape keys
             var btns = document.querySelectorAll('.tape-btn');
             btns.forEach(function(btn, index) {
                 if(index === currentSongIndex) {
