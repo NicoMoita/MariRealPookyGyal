@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Will you go out with me?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
     <style>
         body { 
             text-align: center; 
-            font-family: 'Arial', sans-serif; 
+            font-family: 'Poppins', sans-serif; 
             background: url('background.jpg') no-repeat center center fixed; 
             background-size: cover;
             color: white;
@@ -16,38 +20,103 @@
             justify-content: center;
             align-items: center;
             margin: 0;
-            overflow: hidden; /* Prevents scrollbars when the button slides */
+            overflow: hidden;
         }
-        h1 { text-shadow: 2px 2px 4px #000; margin-bottom: 30px; }
         
-        button { font-size: 20px; padding: 15px 30px; margin: 10px; cursor: pointer; border: none; border-radius: 10px; }
-        #yes-btn { background-color: #4CAF50; color: white; }
+        h1 { 
+            font-weight: 800;
+            font-size: 3rem;
+            text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; 
+            margin-bottom: 30px; 
+            letter-spacing: -1px;
+        }
         
-        /* Soap bar effect: smooth, sliding transition curve */
+        button { 
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 22px; 
+            padding: 15px 35px; 
+            margin: 10px; 
+            cursor: pointer; 
+            border: none; 
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        /* Base Yes Button */
+        #yes-btn { 
+            background-color: #4CAF50; 
+            color: white; 
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        /* Spider-Punk Style Highlight Effect */
+        #yes-btn:hover {
+            background-color: #00ff66; /* Neon Punk Green */
+            color: #000000;
+            font-weight: 800;
+            /* Multi-layered sharp neon glitch shadows */
+            box-shadow: 0 0 0 4px #000, 0 0 0 8px #ff0055, 0 0 25px #00f0ff;
+            /* Aggressive comic-book cutout tilt */
+            transform: scale(1.15) rotate(-4deg);
+        }
+        
+        /* Soap bar No Button */
         #no-btn { 
             background-color: #f44336; 
             color: white; 
             position: absolute; 
-            left: calc(50% + 70px); 
+            left: calc(50% + 80px); 
             top: calc(50% + 35px);
-            transition: left 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.8s cubic-bezier(0.1, 0.8, 0.3, 1); 
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            transition: left 0.9s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.9s cubic-bezier(0.1, 0.8, 0.3, 1); 
         }
 
-        /* Music Player Styling */
+        /* Upgraded Music Player UI */
         .music-player {
             position: fixed;
             bottom: 25px;
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(15, 15, 15, 0.8);
             padding: 15px;
-            border-radius: 15px;
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             z-index: 10;
-            width: 220px;
+            width: 240px;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.5);
         }
-        .music-player p { margin: 0 0 10px 0; font-size: 14px; font-weight: bold; }
-        .player-controls { display: flex; justify-content: center; gap: 5px; }
-        .player-controls button { font-size: 14px; padding: 8px 12px; margin: 0; border-radius: 5px; background: white; color: black; }
+        
+        .player-gif {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .music-player p { 
+            margin: 0 0 12px 0; 
+            font-size: 14px; 
+            font-weight: 600; 
+            letter-spacing: 0.5px;
+        }
+        
+        .player-controls { display: flex; justify-content: center; gap: 8px; }
+        .player-controls button { 
+            font-size: 13px; 
+            padding: 8px 14px; 
+            margin: 0; 
+            border-radius: 8px; 
+            background: white; 
+            color: black; 
+            font-weight: 600;
+        }
+        .player-controls button:hover {
+            background: #ff0055;
+            color: white;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body onclick="startFirstPlay()">
@@ -59,8 +128,8 @@
         <button id="no-btn" onmouseover="moveButton()">No</button>
     </div>
 
-    <!-- Mini Music Player UI -->
     <div class="music-player" onclick="event.stopPropagation()">
+        <img id="song-gif" class="player-gif" src="gif1.gif" alt="Music Visualizer">
         <p id="song-title">🎵 Song 1</p>
         <div class="player-controls">
             <button onclick="prevSong()">⏮ Back</button>
@@ -74,24 +143,20 @@
     </audio>
 
     <script>
-        // --- Soap Bar "No" Button Physics ---
+        // --- Soap Bar "No" Button Logic ---
         function moveButton() {
             var btn = document.getElementById('no-btn');
-            
-            // Get current positions
             var currentX = btn.offsetLeft;
             var currentY = btn.offsetTop;
 
-            // Constrained sliding distance (nudge max 150px away)
-            var maxSlide = 150; 
+            var maxSlide = 130; // Slightly smaller slide distance for that close "slipping" feel
             var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
             var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
 
             var newX = currentX + offsetX;
             var newY = currentY + offsetY;
 
-            // Keep it safely inside the screen padding zones
-            var padding = 60;
+            var padding = 70;
             if (newX < padding) newX = padding;
             if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
             if (newY < padding) newY = padding;
@@ -101,10 +166,11 @@
             btn.style.top = newY + 'px';
         }
 
-        // --- Music Player Logic ---
+        // --- Music & GIF Player Data ---
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
-        // You can change these strings to the actual names of the songs!
-        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
+        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
+        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; // Change these to real song titles if you want!
+        
         var currentSongIndex = 0;
         var audio = document.getElementById('myAudio');
         var isPlaying = false;
@@ -121,6 +187,7 @@
 
         function updateSong() {
             audio.src = songs[currentSongIndex];
+            document.getElementById('song-gif').src = gifs[currentSongIndex];
             document.getElementById('song-title').innerText = songTitles[currentSongIndex];
             if (isPlaying) {
                 audio.play();
@@ -157,7 +224,7 @@
 
         // --- Notification Logic ---
         function notifyMe(event) {
-            event.stopPropagation(); // Stops the music from resetting on click
+            event.stopPropagation();
             window.location.href = "mailto:YOUR_EMAIL@example.com?subject=SHE SAID YES!&body=She clicked Yes on your website!";
         }
     </script>
