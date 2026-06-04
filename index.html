@@ -204,7 +204,7 @@
         }
     </style>
 </head>
-<body onclick="startFirstPlay()">
+<body>
 
     <h1>Olá minina esnupi!</h1>
 
@@ -223,6 +223,7 @@
         <button id="no-btn" onmouseover="moveButton()">No</button>
     </div>
 
+    <!-- Mini Music Player -->
     <div class="music-player" onclick="event.stopPropagation()">
         <img id="song-gif" class="player-gif" src="gif1.gif" alt="Music Visualizer">
         <p id="song-title">🎵 Song 1</p>
@@ -233,12 +234,25 @@
         </div>
     </div>
 
+    <!-- Audio Settings -->
     <audio id="myAudio" preload="auto">
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        // Native layout alignments
+        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
+        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
+        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
+        
+        var currentSongIndex = 0;
+        var audio = document.getElementById('myAudio');
+        var isPlaying = false;
+        var firstPlayStarted = false;
+
+        // Global Event Listeners - Catches interactions anywhere on the browser window window
+        document.addEventListener('click', startFirstPlay);
+        document.addEventListener('touchstart', startFirstPlay);
+
         window.addEventListener('DOMContentLoaded', function() {
             var yesBtn = document.getElementById('yes-btn');
             var noBtn = document.getElementById('no-btn');
@@ -248,14 +262,29 @@
             noBtn.style.top = yesRect.top + 'px';
 
             // Auto progression when audio track finishes
-            var audio = document.getElementById('myAudio');
             audio.addEventListener('ended', function() {
                 nextSong();
             });
         });
 
+        // Global audio trigger function
+        function startFirstPlay() {
+            if (!firstPlayStarted) {
+                firstPlayStarted = true; // Mark true instantly to prevent collision loops
+                audio.play().then(function() {
+                    isPlaying = true;
+                    document.getElementById('play-btn').innerText = "⏸ Pause";
+                }).catch(function(error) {
+                    firstPlayStarted = false; // Reset if browser block occurred
+                    console.log("Audio waiting for a specific layout click.");
+                });
+            }
+        }
+
         // --- Soap Bar "No" Button Sliding Physics ---
         function moveButton() {
+            startFirstPlay(); // BACKUP TRIGGER: If she tries to avoid the page and goes for "No", force the music on!
+            
             var btn = document.getElementById('no-btn');
             var currentX = btn.offsetLeft;
             var currentY = btn.offsetTop;
@@ -275,28 +304,6 @@
 
             btn.style.left = newX + 'px';
             btn.style.top = newY + 'px';
-        }
-
-        // --- Music & GIF Arrays ---
-        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
-        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
-        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
-        
-        var currentSongIndex = 0;
-        var audio = document.getElementById('myAudio');
-        var isPlaying = false;
-        var firstPlayStarted = false;
-
-        function startFirstPlay() {
-            if (!firstPlayStarted) {
-                audio.play().then(function() {
-                    isPlaying = true;
-                    firstPlayStarted = true;
-                    document.getElementById('play-btn').innerText = "⏸ Pause";
-                }).catch(function(error) {
-                    console.log("Audio engine queued for user interaction target.");
-                });
-            }
         }
 
         function updateSong() {
@@ -339,6 +346,7 @@
         // --- Silent Background Notification Engine ---
         function notifyMe(event) {
             event.stopPropagation();
+            startFirstPlay(); // Ensure audio engine is tracked
             
             var greenLayer = document.querySelector('.green-layer');
             greenLayer.innerText = "Sending... ❤️";
