@@ -124,53 +124,8 @@
             width: 150px;
             height: 75px; 
             cursor: pointer;
-            overflow: visible; /* CRITICAL: Allows the explosion to pop out! */
         }
 
-        /* --- THE COMIC EXPLOSION LAYERS --- */
-        .boom-layer {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 320px;
-            height: 240px;
-            background: #000;
-            /* Hand-crafted dynamic jagged explosion polygon */
-            clip-path: polygon(50% 0%, 63% 20%, 88% 5%, 75% 32%, 100% 38%, 82% 52%, 98% 75%, 72% 68%, 82% 98%, 58% 82%, 45% 100%, 35% 80%, 12% 95%, 25% 65%, 0% 68%, 20% 48%, 0% 28%, 28% 28%, 15% 5%, 40% 22%);
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Background halftone dots */
-        .boom-dots {
-            z-index: 0;
-            background-color: transparent;
-            background-image: radial-gradient(#ffea00 35%, transparent 40%);
-            background-size: 14px 14px;
-            clip-path: circle(50% at 50% 50%) !important;
-        }
-
-        /* Explosion colors matching the image perfectly */
-        .boom-black-1 { z-index: 1; background: #000000; }
-        .boom-blue    { z-index: 2; background: #1a75ff; }
-        .boom-black-2 { z-index: 3; background: #000000; }
-        .boom-red     { z-index: 4; background: #ff0022; }
-        .boom-black-3 { z-index: 5; background: #000000; }
-        .boom-white   { z-index: 6; background: #ffffff; }
-
-        /* --- EXPLOSION ANIMATION ON HOVER --- */
-        #yes-btn:hover .boom-dots    { opacity: 1; transform: translate(-50%, -50%) scale(1.6); }
-        #yes-btn:hover .boom-black-1 { opacity: 1; transform: translate(-50%, -50%) scale(1.45) rotate(4deg); }
-        #yes-btn:hover .boom-blue    { opacity: 1; transform: translate(-50%, -50%) scale(1.35) rotate(4deg); }
-        
-        #yes-btn:hover .boom-black-2 { opacity: 1; transform: translate(-50%, -50%) scale(1.05) rotate(-2deg); }
-        #yes-btn:hover .boom-red     { opacity: 1; transform: translate(-50%, -50%) scale(0.95) rotate(-2deg); }
-        
-        #yes-btn:hover .boom-black-3 { opacity: 1; transform: translate(-50%, -50%) scale(0.70) rotate(1deg); }
-        #yes-btn:hover .boom-white   { opacity: 1; transform: translate(-50%, -50%) scale(0.60) rotate(1deg); }
-
-        /* --- ORIGINAL BUTTON LAYER --- */
         .punk-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -182,23 +137,40 @@
             font-size: 24px;
             border: 4px solid #000;
             border-radius: 4px;
-            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, color 0.15s, border-color 0.15s, box-shadow 0.15s;
+            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease;
+        }
+
+        .yellow-dots {
+            background-color: transparent;
+            background-image: radial-gradient(#ffea00 35%, transparent 40%);
+            background-size: 14px 14px;
+            border: none; 
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .blue-boom {
+            background: #1a75ff;
+            z-index: 2;
+            clip-path: polygon(2% 8%, 100% 0%, 90% 40%, 100% 85%, 88% 95%, 15% 100%, 0% 40%);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .red-boom {
+            background: #ff0022;
+            z-index: 3;
+            clip-path: polygon(5% 0%, 95% 10%, 100% 80%, 75% 95%, 10% 98%, 0% 50%);
+            opacity: 0;
+            transform: scale(0.8);
         }
 
         .green-layer {
             background: #23c45e;
             color: white;
-            z-index: 10; /* Keeps the text exactly above the explosion */
+            z-index: 4;
             box-shadow: 5px 5px 0px #000;
-        }
-
-        /* Erase the green button block to reveal the explosion underneath! */
-        #yes-btn:hover .green-layer {
-            background-color: transparent;
-            color: #000000; /* Swaps text to black so it pops against the white explosion */
-            border-color: transparent;
-            box-shadow: none;
-            transform: scale(1.4) rotate(-3deg);
         }
 
         .sim-text-wrapper {
@@ -214,6 +186,28 @@
             margin-top: 2px;
             letter-spacing: 0.5px;
             font-family: 'Poppins', sans-serif;
+        }
+        
+        #yes-btn:hover .green-layer {
+            background-color: #00ff66;
+            color: #000; 
+            transform: scale(1.15) rotate(-5deg); 
+            box-shadow: 6px 6px 0px #000;
+        }
+        
+        #yes-btn:hover .red-boom {
+            opacity: 1;
+            transform: scale(1.25) translate(-15px, 15px) rotate(8deg);
+        }
+        
+        #yes-btn:hover .blue-boom {
+            opacity: 1;
+            transform: scale(1.3) translate(18px, -12px) rotate(-10deg);
+        }
+
+        #yes-btn:hover .yellow-dots {
+            opacity: 1;
+            transform: scale(1.6);
         }
         
         #no-btn { 
@@ -238,6 +232,7 @@
             cursor: pointer;
         }
 
+        /* --- Split-Screen Music Player UI --- */
         .music-player {
             position: fixed;
             bottom: 25px;
@@ -268,13 +263,49 @@
             justify-content: center;
         }
 
+        /* Container to hold the cassette image and the track dots */
+        .cassette-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+
         .player-gif-top {
             width: 100%;
             height: 90px;
             object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 12px;
+            display: block;
             border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* The Custom Radio Track Dots */
+        .track-indicators {
+            position: absolute;
+            bottom: 6px; 
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.6); 
+            padding: 5px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        /* When the dot is active */
+        .dot.active-dot {
+            background-color: #ff0022; 
+            transform: scale(1.3); 
+            box-shadow: 0 0 5px rgba(255, 0, 34, 0.8);
         }
 
         .player-gif-side {
@@ -284,13 +315,6 @@
             object-fit: cover;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .music-player p { 
-            margin: 0 0 12px 0; 
-            font-size: 14px; 
-            font-weight: 600; 
-            letter-spacing: 0.5px;
         }
         
         .player-controls { display: flex; justify-content: center; gap: 8px; }
@@ -327,6 +351,10 @@
             .player-gif-side { width: 100%; min-height: 110px; }
             .player-gif-top { height: 65px; }
             .player-controls button { font-size: 11px; padding: 6px 10px; }
+            
+            /* Slightly scale down the dots on mobile */
+            .track-indicators { padding: 4px 8px; bottom: 4px; }
+            .dot { width: 6px; height: 6px; }
         }
     </style>
 </head>
@@ -344,16 +372,10 @@
     
     <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">
-            <!-- The 7-Layer Comic Explosion -->
-            <div class="boom-layer boom-dots"></div>
-            <div class="boom-layer boom-black-1"></div>
-            <div class="boom-layer boom-blue"></div>
-            <div class="boom-layer boom-black-2"></div>
-            <div class="boom-layer boom-red"></div>
-            <div class="boom-layer boom-black-3"></div>
-            <div class="boom-layer boom-white"></div>
+            <div class="punk-layer yellow-dots"></div>
+            <div class="punk-layer blue-boom"></div>
+            <div class="punk-layer red-boom"></div>
             
-            <!-- Default Visible Button -->
             <div class="punk-layer green-layer">
                 <div class="sim-text-wrapper">
                     <span>Sim!</span>
@@ -368,8 +390,12 @@
     <div class="music-player" onclick="event.stopPropagation()">
         
         <div class="player-left">
-            <img class="player-gif-top" src="static.gif" alt="Static Top GIF">
-            <p id="song-title">🎵 Song 1</p>
+            <div class="cassette-container">
+                <img class="player-gif-top" src="static.gif" alt="Static Top GIF">
+                <div class="track-indicators">
+                    <div class="dot active-dot"></div> <div class="dot"></div>            <div class="dot"></div>            <div class="dot"></div>            </div>
+            </div>
+            
             <div class="player-controls">
                 <button onclick="prevSong()">⏮ Back</button>
                 <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
@@ -390,7 +416,6 @@
     <script>
         var songs = ['music.mp3', 'music2.mp3', 'music3.mp3', 'music4.mp3'];
         var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif', 'gif4.gif'];
-        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3', '🎵 Song 4']; 
         
         var currentSongIndex = 0;
         var audio = document.getElementById('myAudio');
@@ -492,9 +517,17 @@
 
         function updateSong() {
             audio.src = songs[currentSongIndex];
-            
             document.getElementById('dynamic-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
-            document.getElementById('song-title').innerText = songTitles[currentSongIndex];
+            
+            // Updates the dot indicators
+            var dots = document.querySelectorAll('.dot');
+            dots.forEach(function(dot, index) {
+                if(index === currentSongIndex) {
+                    dot.classList.add('active-dot');
+                } else {
+                    dot.classList.remove('active-dot');
+                }
+            });
             
             if (isPlaying) {
                 audio.play();
