@@ -27,6 +27,29 @@
             padding-bottom: 300px; 
         }
 
+        /* --- Floating Stars Decor --- */
+        .star-decoration {
+            position: absolute;
+            width: 55px; /* Adjust size here if they are too big/small */
+            height: auto;
+            z-index: 1; /* Keeps them behind the buttons but visible */
+            opacity: 0.9;
+            animation: floatStar 4s ease-in-out infinite;
+            pointer-events: none; /* Makes sure they don't block clicks */
+        }
+
+        /* Soft floating animation */
+        @keyframes floatStar {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(8deg); }
+        }
+
+        /* Unique positions and animation delays for a natural look */
+        .star-top-left { top: 12%; left: 12%; animation-delay: 0s; }
+        .star-top-right { top: 15%; right: 10%; animation-delay: 1.5s; }
+        .star-bottom-left { bottom: 35%; left: 15%; animation-delay: 0.8s; }
+        .star-bottom-right { bottom: 30%; right: 12%; animation-delay: 2.2s; }
+
         .header-container {
             display: flex;
             align-items: center;
@@ -34,6 +57,7 @@
             gap: 25px;
             margin-bottom: 20px; 
             padding: 0 20px;
+            z-index: 5;
         }
 
         h1 { 
@@ -232,7 +256,6 @@
             cursor: pointer;
         }
 
-        /* --- Split-Screen Music Player UI --- */
         .music-player {
             position: fixed;
             bottom: 25px;
@@ -263,10 +286,9 @@
             justify-content: center;
         }
 
-        /* --- Standalone Borderless Keys --- */
         .cassette-container {
             display: flex;
-            flex-direction: column; /* Stacks the keys strictly ABOVE the GIF */
+            flex-direction: column; 
             align-items: center;
             width: 100%;
             margin-bottom: 12px;
@@ -275,14 +297,13 @@
         .track-indicators {
             display: flex;
             gap: 8px;
-            margin-bottom: 0px; /* No overlap! */
+            margin-bottom: 0px; 
             z-index: 1;
         }
 
-        /* Pure gradient and shadow styling, no harsh black borders */
         .tape-btn {
             width: 32px;
-            height: 22px; /* Kept short to look like top of buttons */
+            height: 22px; 
             background: linear-gradient(to bottom, #ffffff, #b3b3b3);
             border-radius: 4px 4px 0 0; 
             position: relative;
@@ -291,7 +312,6 @@
             z-index: 1;
         }
 
-        /* The Circular Thumb Groove (Indent) */
         .tape-btn::after {
             content: '';
             position: absolute;
@@ -306,9 +326,8 @@
             transition: background 0.15s ease;
         }
 
-        /* Active Pressed State - Deep Red */
         .tape-btn.active-btn {
-            transform: translateY(6px); /* Pushes down towards the GIF naturally */
+            transform: translateY(6px); 
             background: linear-gradient(to bottom, #ff4d4d, #b30000);
             box-shadow: inset 0px 2px 2px rgba(255,100,100,0.8), 0px -1px 2px rgba(0,0,0,0.5);
             z-index: 2;
@@ -326,7 +345,7 @@
             display: block;
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
-            z-index: 3; /* Cassette stays cleanly below the unpressed keys */
+            z-index: 3; 
         }
 
         .player-gif-side {
@@ -359,6 +378,14 @@
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             body { padding-bottom: 220px; }
+            
+            /* Star mobile adjustments */
+            .star-decoration { width: 35px; }
+            .star-top-left { top: 8%; left: 5%; }
+            .star-top-right { top: 10%; right: 5%; }
+            .star-bottom-left { bottom: 25%; left: 5%; }
+            .star-bottom-right { bottom: 22%; right: 5%; }
+
             .header-container { gap: 15px; }
             h1 { font-size: 2.5rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
             .header-gif { height: 220px; }
@@ -378,6 +405,11 @@
     </style>
 </head>
 <body>
+
+    <img src="star1.gif" alt="Star" class="star-decoration star-top-left">
+    <img src="star2.gif" alt="Star" class="star-decoration star-top-right">
+    <img src="star3.gif" alt="Star" class="star-decoration star-bottom-left">
+    <img src="star4.gif" alt="Star" class="star-decoration star-bottom-right">
 
     <div class="header-container">
         <h1>Olá minina esnupi!</h1>
@@ -411,7 +443,11 @@
         <div class="player-left">
             <div class="cassette-container">
                 <div class="track-indicators">
-                    <div class="tape-btn active-btn"></div> <div class="tape-btn"></div>            <div class="tape-btn"></div>            <div class="tape-btn"></div>            </div>
+                    <div class="tape-btn active-btn"></div>
+                    <div class="tape-btn"></div>
+                    <div class="tape-btn"></div>
+                    <div class="tape-btn"></div>
+                </div>
                 <img class="player-gif-top" src="static.gif" alt="Static Top GIF">
             </div>
             
