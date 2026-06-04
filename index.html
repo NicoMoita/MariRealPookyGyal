@@ -112,49 +112,59 @@
             transform: rotate(4deg);
         }
 
+        /* --- 8-BIT GAMEBOY / POKÉMON BUBBLE --- */
         .question-box {
             background: #ffffff;
             color: #000000;
-            padding: 18px 30px;
+            padding: 20px 30px;
             font-family: 'VT323', monospace; 
             font-size: 1.8rem;
             max-width: 85%;
             width: 520px;
             margin-bottom: 0px; 
-            border: 4px solid #000000;
-            border-radius: 0px; 
-            box-shadow: 8px 8px 0px #000000;
-            line-height: 1.2;
             position: relative;
             z-index: 5;
+            
+            /* Core Top & Bottom borders */
+            border-top: 4px solid #000000;
+            border-bottom: 4px solid #000000;
+            border-left: none;
+            border-right: none;
         }
 
+        /* The 8-bit rounded sides (Steps the borders in by 4px) */
         .question-box::before {
             content: "";
             position: absolute;
-            bottom: -16px;
-            left: 40px;
-            width: 24px;
-            height: 20px;
-            background: #ffffff;
+            top: 0; bottom: 0;
+            left: -4px; right: -4px;
             border-left: 4px solid #000000;
             border-right: 4px solid #000000;
-            z-index: 2;
+            background: #ffffff;
+            z-index: -1;
         }
 
+        /* The 8-bit pixel-art tail mapped perfectly to the grid */
         .question-box::after {
             content: "";
             position: absolute;
-            bottom: -28px;
-            left: 44px; 
-            width: 16px;
-            height: 16px;
+            bottom: -4px; 
+            left: 40px;
+            width: 4px; 
+            height: 4px;
             background: #ffffff;
-            border-left: 4px solid #000000;
-            border-right: 4px solid #000000;
-            border-bottom: 4px solid #000000;
-            box-shadow: 8px 8px 0px #000000; 
-            z-index: 1;
+            box-shadow: 
+                /* Overwrite the bottom border */
+                4px 0 0 0 #fff, 8px 0 0 0 #fff, 12px 0 0 0 #fff,
+                /* Tail Row 1 */
+                -4px 4px 0 0 #000, 0 4px 0 0 #fff, 4px 4px 0 0 #fff, 8px 4px 0 0 #fff, 12px 4px 0 0 #000,
+                /* Tail Row 2 */
+                -4px 8px 0 0 #000, 0 8px 0 0 #fff, 4px 8px 0 0 #fff, 8px 8px 0 0 #000,
+                /* Tail Row 3 */
+                -4px 12px 0 0 #000, 0 12px 0 0 #fff, 4px 12px 0 0 #000,
+                /* Tail Tip */
+                -4px 16px 0 0 #000, 0 16px 0 0 #000;
+            display: block;
         }
 
         .parenthesis-text {
@@ -172,7 +182,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: -4px; 
+            margin-top: 8px; /* Slightly pushed down to fit the new tail */
             z-index: 6; 
         }
 
@@ -201,32 +211,30 @@
             transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        /* --- FIXED SPREAD APART DOTS (No more box clipping) --- */
+        /* --- TRUE COMIC BOOK HALFTONE DOTS --- */
         .yellow-dots {
             background-color: transparent;
-            background-image: 
-                radial-gradient(#ffea00 30%, transparent 35%),
-                radial-gradient(#ffea00 20%, transparent 25%);
-            background-size: 32px 32px, 44px 44px; 
-            background-position: 0 0, 16px 16px;
+            background-image: radial-gradient(circle, #ffea00 45%, transparent 50%); /* Crisp, uniform circles */
+            background-size: 20px 20px; /* Tight, comic-book spacing */
             border: none; 
             z-index: 1;
             opacity: 0;
             
-            /* Force a large square canvas so it breaks out of the rectangular button */
-            width: 300px;
-            height: 300px;
+            /* Massive square canvas to avoid clipping */
+            width: 400px;
+            height: 400px;
+            position: absolute;
             top: 50%;
             left: 50%;
-            margin-top: -150px;
-            margin-left: -150px;
+            margin-top: -200px;
+            margin-left: -200px;
             
-            /* Use a soft radial mask instead of a sharp polygon clip path */
-            clip-path: none;
-            -webkit-mask-image: radial-gradient(circle, black 30%, transparent 60%);
-            mask-image: radial-gradient(circle, black 30%, transparent 60%);
+            /* Soft fade mask instead of sharp cuts */
+            -webkit-mask-image: radial-gradient(circle, black 30%, transparent 65%);
+            mask-image: radial-gradient(circle, black 30%, transparent 65%);
             
-            transform: scale(0.5);
+            transform: scale(0.5) rotate(15deg); /* Pre-rotated for that pop-art feel */
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
         }
 
         .blue-boom {
@@ -296,7 +304,7 @@
 
         #yes-btn:hover .yellow-dots {
             opacity: 1;
-            transform: scale(1.1) rotate(12deg); /* Adjusted scale for the massive new container */
+            transform: scale(1.1) rotate(25deg); /* Pops to a new rotation on hover */
         }
 
         #no-btn { 
@@ -463,17 +471,20 @@
             
             .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
             #yes-btn, #no-btn { width: 140px; height: 65px; font-size: 20px; }
-            .button-area { height: 65px; }
+            .button-area { height: 65px; margin-top: 15px; }
             .sim-tiny-text { font-size: 0.55rem; }
             
             .music-player { 
                 padding: 15px; 
                 gap: 12px; 
-                width: 94vw; /* Perfect floating width */
-                left: 3vw; 
-                bottom: 20px; 
-                border-radius: 20px;
+                width: 100vw; 
                 max-width: none;
+                bottom: 0; 
+                left: 0; 
+                border-radius: 20px 20px 0 0; 
+                border-left: none;
+                border-right: none;
+                border-bottom: none;
             }
             .player-left { width: 50%; }
             .player-right { width: 50%; }
