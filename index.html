@@ -27,6 +27,36 @@
             padding-bottom: 300px; 
         }
 
+        /* --- THE NEW WELCOME OVERLAY --- */
+        #start-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #111111;
+            z-index: 9999; /* Keeps it above absolutely everything */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.6s ease;
+            cursor: pointer;
+        }
+
+        .tap-text {
+            font-family: 'VT323', monospace;
+            font-size: 2.5rem;
+            color: #ffffff;
+            background: #000000;
+            padding: 20px 40px;
+            border: 4px solid #ffffff;
+            box-shadow: 8px 8px 0px #ff00ff; /* Punk magenta shadow */
+            animation: pulseText 1.5s infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         /* --- MASSIVE Floating Stars Decor --- */
         .star-decoration {
             position: absolute;
@@ -43,7 +73,6 @@
             50% { transform: translateY(-15px) rotate(8deg); }
         }
 
-        /* Spread much further apart into the deep corners */
         .star-top-left { top: 2%; left: 2%; animation-delay: 0s; }
         .star-top-right { top: 4%; right: 2%; animation-delay: 1.5s; }
         .star-bottom-left { bottom: 10%; left: 2%; animation-delay: 0.8s; }
@@ -164,10 +193,8 @@
             transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        /* Chaotic Yellow Dots Layer */
         .yellow-dots {
             background-color: transparent;
-            /* Two offset grid layers of dots to make it look messy and chaotic */
             background-image: 
                 radial-gradient(#ffea00 30%, transparent 35%),
                 radial-gradient(#ffea00 20%, transparent 25%);
@@ -177,11 +204,9 @@
             z-index: 1;
             opacity: 0;
             transform: scale(0.8);
-            /* Jagged, torn paper shape instead of a square */
             clip-path: polygon(10% 5%, 35% 0%, 55% 15%, 85% 5%, 100% 30%, 90% 55%, 95% 85%, 65% 100%, 40% 90%, 15% 95%, 0% 70%, 10% 40%);
         }
 
-        /* Punk Cyan Spike */
         .blue-boom {
             background: #00ffff;
             z-index: 2;
@@ -191,7 +216,6 @@
             transform: scale(0.8);
         }
 
-        /* Punk Magenta Spike */
         .red-boom {
             background: #ff00ff;
             z-index: 3;
@@ -224,9 +248,8 @@
             transition: color 0.15s ease;
         }
         
-        /* --- SPIDER-PUNK HOVER STATE --- */
         #yes-btn:hover .green-layer {
-            background-color: #111; /* Rough black paper */
+            background-color: #111; 
             color: #fff; 
             transform: scale(1.15) rotate(-4deg); 
             box-shadow: 8px 8px 0px #ffea00; 
@@ -234,10 +257,9 @@
             clip-path: polygon(2% 2%, 98% 0%, 100% 98%, 0% 96%); 
         }
 
-        /* Toned Down Chromatic Aberration Text Split */
         #yes-btn:hover .sim-text-wrapper span {
-            text-shadow: 1.5px 1.5px 0px #00ffff, -1.5px -1.5px 0px #ff00ff; /* Halved the offset size */
-            letter-spacing: 0.5px; /* Brought the letters closer together */
+            text-shadow: 1.5px 1.5px 0px #00ffff, -1.5px -1.5px 0px #ff00ff; 
+            letter-spacing: 0.5px; 
         }
         
         #yes-btn:hover .red-boom {
@@ -252,7 +274,7 @@
 
         #yes-btn:hover .yellow-dots {
             opacity: 1;
-            transform: scale(1.7) rotate(12deg); /* Slightly more wild rotation for the messy dots */
+            transform: scale(1.7) rotate(12deg); 
         }
         
         #no-btn { 
@@ -277,7 +299,6 @@
             cursor: pointer;
         }
 
-        /* --- Split-Screen Music Player UI --- */
         .music-player {
             position: fixed;
             bottom: 25px;
@@ -397,17 +418,14 @@
             transform: translateY(-2px);
         }
 
-        /* Mobile Responsiveness */
         @media (max-width: 768px) {
             body { padding-bottom: 220px; }
-            
-            /* Responsive Giant Stars */
+            .tap-text { font-size: 1.8rem; padding: 15px 25px; }
             .star-decoration { width: 180px; }
             .star-top-left { top: 1%; left: 1%; }
             .star-top-right { top: 2%; right: 1%; }
             .star-bottom-left { bottom: 15%; left: 1%; }
             .star-bottom-right { bottom: 12%; right: 1%; }
-
             .header-container { gap: 15px; }
             h1 { font-size: 2.5rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
             .header-gif { height: 220px; }
@@ -428,11 +446,14 @@
 </head>
 <body>
 
-    <!-- Giant Floating Star GIFs -->
+    <div id="start-overlay" onclick="startExperience()">
+        <div class="tap-text">Tap to Open! 💌</div>
+    </div>
+
     <img src="star4.gif" alt="Star" class="star-decoration star-top-left">
-    <img src="star1.gif" alt="Star" class="star-decoration star-top-right">
+    <img src="star3.gif" alt="Star" class="star-decoration star-top-right">
     <img src="star2.gif" alt="Star" class="star-decoration star-bottom-left">
-    <img src="star3.gif" alt="Star" class="star-decoration star-bottom-right">
+    <img src="star1.gif" alt="Star" class="star-decoration star-bottom-right">
 
     <div class="header-container">
         <h1>Olá minina esnupi!</h1>
@@ -446,11 +467,9 @@
     
     <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">
-            <!-- The Chaotic Yellow Dots Layer -->
             <div class="punk-layer yellow-dots"></div>
             <div class="punk-layer blue-boom"></div>
             <div class="punk-layer red-boom"></div>
-            
             <div class="punk-layer green-layer">
                 <div class="sim-text-wrapper">
                     <span>Sim!</span>
@@ -458,12 +477,10 @@
                 </div>
             </div>
         </button>
-        
         <button id="no-btn">Não</button>
     </div>
 
     <div class="music-player" onclick="event.stopPropagation()">
-        
         <div class="player-left">
             <div class="cassette-container">
                 <div class="track-indicators">
@@ -485,7 +502,6 @@
         <div class="player-right">
             <img id="dynamic-gif" class="player-gif-side" src="gif1.gif" alt="Dynamic Visualizer">
         </div>
-
     </div>
 
     <audio id="myAudio" preload="auto">
@@ -506,11 +522,30 @@
         var isPlaying = false;
         var firstPlayStarted = false;
         var hasMoved = false; 
-        
         var mobileSlipCount = 0;
 
-        document.addEventListener('click', startFirstPlay);
-        document.addEventListener('touchstart', startFirstPlay);
+        // --- NEW: Overlay Start Function ---
+        function startExperience() {
+            var overlay = document.getElementById('start-overlay');
+            overlay.style.opacity = '0';
+            
+            // Wait for fade out, then remove from screen
+            setTimeout(function() { 
+                overlay.style.display = 'none'; 
+            }, 600);
+
+            // Trigger the audio!
+            if (!firstPlayStarted) {
+                firstPlayStarted = true; 
+                audio.play().then(function() {
+                    isPlaying = true;
+                    document.getElementById('play-btn').innerText = "⏸ Pause";
+                }).catch(function(error) {
+                    firstPlayStarted = false; 
+                    console.log("Audio waiting for a specific layout click.");
+                });
+            }
+        }
 
         function snapButtons() {
             if (!hasMoved) { 
@@ -561,22 +596,8 @@
 
         window.addEventListener('resize', snapButtons);
 
-        function startFirstPlay() {
-            if (!firstPlayStarted) {
-                firstPlayStarted = true; 
-                audio.play().then(function() {
-                    isPlaying = true;
-                    document.getElementById('play-btn').innerText = "⏸ Pause";
-                }).catch(function(error) {
-                    firstPlayStarted = false; 
-                    console.log("Audio waiting for a specific layout click.");
-                });
-            }
-        }
-
         function moveButton() {
             hasMoved = true; 
-            startFirstPlay(); 
             
             var btn = document.getElementById('no-btn');
             var currentX = btn.offsetLeft;
@@ -601,7 +622,7 @@
 
         function updateSong() {
             clickAudio.currentTime = 0; 
-            clickAudio.play().catch(function(e) { console.log("Click sound blocked by browser"); });
+            clickAudio.play().catch(function(e) { console.log("Click sound blocked"); });
 
             audio.src = songs[currentSongIndex];
             document.getElementById('dynamic-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
@@ -650,7 +671,6 @@
 
         function notifyMe(event) {
             event.stopPropagation();
-            startFirstPlay(); 
             
             var greenLayer = document.querySelector('.green-layer');
             greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... ❤️</div>";
@@ -670,7 +690,6 @@
 
         function notifyNo(event) {
             event.stopPropagation();
-            startFirstPlay(); 
             
             var noBtn = document.getElementById('no-btn');
             noBtn.innerText = "That's ok :/"; 
