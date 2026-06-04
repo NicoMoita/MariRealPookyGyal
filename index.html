@@ -164,14 +164,21 @@
             transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
+        /* Chaotic Yellow Dots Layer */
         .yellow-dots {
             background-color: transparent;
-            background-image: radial-gradient(#ffea00 35%, transparent 40%);
-            background-size: 14px 14px;
+            /* Two offset grid layers of dots to make it look messy and chaotic */
+            background-image: 
+                radial-gradient(#ffea00 30%, transparent 35%),
+                radial-gradient(#ffea00 20%, transparent 25%);
+            background-size: 16px 16px, 22px 22px;
+            background-position: 0 0, 8px 8px;
             border: none; 
             z-index: 1;
             opacity: 0;
             transform: scale(0.8);
+            /* Jagged, torn paper shape instead of a square */
+            clip-path: polygon(10% 5%, 35% 0%, 55% 15%, 85% 5%, 100% 30%, 90% 55%, 95% 85%, 65% 100%, 40% 90%, 15% 95%, 0% 70%, 10% 40%);
         }
 
         /* Punk Cyan Spike */
@@ -222,15 +229,15 @@
             background-color: #111; /* Rough black paper */
             color: #fff; 
             transform: scale(1.15) rotate(-4deg); 
-            box-shadow: 8px 8px 0px #ffea00; /* High contrast yellow block shadow */
+            box-shadow: 8px 8px 0px #ffea00; 
             border-color: #111;
-            clip-path: polygon(2% 2%, 98% 0%, 100% 98%, 0% 96%); /* Slightly uneven cut edge */
+            clip-path: polygon(2% 2%, 98% 0%, 100% 98%, 0% 96%); 
         }
 
-        /* Chromatic Aberration Text Split! */
+        /* Toned Down Chromatic Aberration Text Split */
         #yes-btn:hover .sim-text-wrapper span {
-            text-shadow: 3px 2px 0px #00ffff, -3px -2px 0px #ff00ff;
-            letter-spacing: 1px;
+            text-shadow: 1.5px 1.5px 0px #00ffff, -1.5px -1.5px 0px #ff00ff; /* Halved the offset size */
+            letter-spacing: 0.5px; /* Brought the letters closer together */
         }
         
         #yes-btn:hover .red-boom {
@@ -245,7 +252,7 @@
 
         #yes-btn:hover .yellow-dots {
             opacity: 1;
-            transform: scale(1.8) rotate(8deg);
+            transform: scale(1.7) rotate(12deg); /* Slightly more wild rotation for the messy dots */
         }
         
         #no-btn { 
@@ -421,11 +428,11 @@
 </head>
 <body>
 
-    <!-- Giant Floating Star GIFs (Positions 1 & 4 Swapped!) -->
+    <!-- Giant Floating Star GIFs -->
     <img src="star4.gif" alt="Star" class="star-decoration star-top-left">
-    <img src="star3.gif" alt="Star" class="star-decoration star-top-right">
+    <img src="star1.gif" alt="Star" class="star-decoration star-top-right">
     <img src="star2.gif" alt="Star" class="star-decoration star-bottom-left">
-    <img src="star1.gif" alt="Star" class="star-decoration star-bottom-right">
+    <img src="star3.gif" alt="Star" class="star-decoration star-bottom-right">
 
     <div class="header-container">
         <h1>Olá minina esnupi!</h1>
@@ -439,6 +446,7 @@
     
     <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">
+            <!-- The Chaotic Yellow Dots Layer -->
             <div class="punk-layer yellow-dots"></div>
             <div class="punk-layer blue-boom"></div>
             <div class="punk-layer red-boom"></div>
