@@ -51,7 +51,6 @@
             transform: rotate(4deg);
         }
 
-        /* --- 8-Bit Pixel Speech Bubble --- */
         .question-box {
             background: #ffffff;
             color: #000000;
@@ -125,8 +124,53 @@
             width: 150px;
             height: 75px; 
             cursor: pointer;
+            overflow: visible; /* CRITICAL: Allows the explosion to pop out! */
         }
 
+        /* --- THE COMIC EXPLOSION LAYERS --- */
+        .boom-layer {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 320px;
+            height: 240px;
+            background: #000;
+            /* Hand-crafted dynamic jagged explosion polygon */
+            clip-path: polygon(50% 0%, 63% 20%, 88% 5%, 75% 32%, 100% 38%, 82% 52%, 98% 75%, 72% 68%, 82% 98%, 58% 82%, 45% 100%, 35% 80%, 12% 95%, 25% 65%, 0% 68%, 20% 48%, 0% 28%, 28% 28%, 15% 5%, 40% 22%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.2s;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Background halftone dots */
+        .boom-dots {
+            z-index: 0;
+            background-color: transparent;
+            background-image: radial-gradient(#ffea00 35%, transparent 40%);
+            background-size: 14px 14px;
+            clip-path: circle(50% at 50% 50%) !important;
+        }
+
+        /* Explosion colors matching the image perfectly */
+        .boom-black-1 { z-index: 1; background: #000000; }
+        .boom-blue    { z-index: 2; background: #1a75ff; }
+        .boom-black-2 { z-index: 3; background: #000000; }
+        .boom-red     { z-index: 4; background: #ff0022; }
+        .boom-black-3 { z-index: 5; background: #000000; }
+        .boom-white   { z-index: 6; background: #ffffff; }
+
+        /* --- EXPLOSION ANIMATION ON HOVER --- */
+        #yes-btn:hover .boom-dots    { opacity: 1; transform: translate(-50%, -50%) scale(1.6); }
+        #yes-btn:hover .boom-black-1 { opacity: 1; transform: translate(-50%, -50%) scale(1.45) rotate(4deg); }
+        #yes-btn:hover .boom-blue    { opacity: 1; transform: translate(-50%, -50%) scale(1.35) rotate(4deg); }
+        
+        #yes-btn:hover .boom-black-2 { opacity: 1; transform: translate(-50%, -50%) scale(1.05) rotate(-2deg); }
+        #yes-btn:hover .boom-red     { opacity: 1; transform: translate(-50%, -50%) scale(0.95) rotate(-2deg); }
+        
+        #yes-btn:hover .boom-black-3 { opacity: 1; transform: translate(-50%, -50%) scale(0.70) rotate(1deg); }
+        #yes-btn:hover .boom-white   { opacity: 1; transform: translate(-50%, -50%) scale(0.60) rotate(1deg); }
+
+        /* --- ORIGINAL BUTTON LAYER --- */
         .punk-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -138,32 +182,25 @@
             font-size: 24px;
             border: 4px solid #000;
             border-radius: 4px;
-            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease;
-        }
-
-        .yellow-layer {
-            background: #ffea00;
-            z-index: 1;
-            clip-path: polygon(2% 8%, 98% 0%, 100% 85%, 88% 95%, 15% 100%, 0% 40%);
-            opacity: 0;
-            transform: scale(0.8);
-        }
-
-        .pink-layer {
-            background: #ff0055;
-            z-index: 2;
-            clip-path: polygon(5% 0%, 95% 10%, 100% 80%, 75% 95%, 10% 98%, 0% 50%);
-            opacity: 0;
-            transform: scale(0.8);
+            transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, color 0.15s, border-color 0.15s, box-shadow 0.15s;
         }
 
         .green-layer {
             background: #23c45e;
             color: white;
-            z-index: 3;
+            z-index: 10; /* Keeps the text exactly above the explosion */
             box-shadow: 5px 5px 0px #000;
         }
-        
+
+        /* Erase the green button block to reveal the explosion underneath! */
+        #yes-btn:hover .green-layer {
+            background-color: transparent;
+            color: #000000; /* Swaps text to black so it pops against the white explosion */
+            border-color: transparent;
+            box-shadow: none;
+            transform: scale(1.4) rotate(-3deg);
+        }
+
         .sim-text-wrapper {
             display: flex;
             flex-direction: column;
@@ -177,23 +214,6 @@
             margin-top: 2px;
             letter-spacing: 0.5px;
             font-family: 'Poppins', sans-serif;
-        }
-        
-        #yes-btn:hover .green-layer {
-            background-color: #00ff66;
-            color: #000;
-            transform: scale(1.15) rotate(-5deg);
-            box-shadow: 6px 6px 0px #000;
-        }
-        
-        #yes-btn:hover .pink-layer {
-            opacity: 1;
-            transform: scale(1.2) translate(-14px, 12px) rotate(8deg);
-        }
-        
-        #yes-btn:hover .yellow-layer {
-            opacity: 1;
-            transform: scale(1.3) translate(16px, -10px) rotate(-12deg);
         }
         
         #no-btn { 
@@ -293,37 +313,15 @@
 
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            body { 
-                padding-bottom: 220px; 
-            }
-            .header-container { 
-                gap: 15px; 
-            }
-            h1 { 
-                font-size: 2.5rem; 
-                text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; 
-            }
-            .header-gif { 
-                height: 220px; 
-            }
-            .question-box { 
-                font-size: 1.4rem; 
-                padding: 15px 20px; 
-                width: 90%; 
-            }
-            #yes-btn, #no-btn {
-                width: 130px;
-                height: 65px;
-                font-size: 20px;
-            }
+            body { padding-bottom: 220px; }
+            .header-container { gap: 15px; }
+            h1 { font-size: 2.5rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
+            .header-gif { height: 220px; }
+            .question-box { font-size: 1.4rem; padding: 15px 20px; width: 90%; }
+            #yes-btn, #no-btn { width: 130px; height: 65px; font-size: 20px; }
             .button-area { height: 65px; }
             .sim-tiny-text { font-size: 0.55rem; }
-            .music-player {
-                padding: 12px;
-                gap: 10px;
-                width: 95vw;
-                bottom: 15px;
-            }
+            .music-player { padding: 12px; gap: 10px; width: 95vw; bottom: 15px; }
             .player-left { width: 55%; }
             .player-right { width: 45%; }
             .player-gif-side { width: 100%; min-height: 110px; }
@@ -346,8 +344,16 @@
     
     <div class="button-area">
         <button id="yes-btn" onclick="notifyMe(event)">
-            <div class="punk-layer yellow-layer"></div>
-            <div class="punk-layer pink-layer"></div>
+            <!-- The 7-Layer Comic Explosion -->
+            <div class="boom-layer boom-dots"></div>
+            <div class="boom-layer boom-black-1"></div>
+            <div class="boom-layer boom-blue"></div>
+            <div class="boom-layer boom-black-2"></div>
+            <div class="boom-layer boom-red"></div>
+            <div class="boom-layer boom-black-3"></div>
+            <div class="boom-layer boom-white"></div>
+            
+            <!-- Default Visible Button -->
             <div class="punk-layer green-layer">
                 <div class="sim-text-wrapper">
                     <span>Sim!</span>
@@ -392,7 +398,6 @@
         var firstPlayStarted = false;
         var hasMoved = false; 
         
-        // New tracker for mobile taps!
         var mobileSlipCount = 0;
 
         document.addEventListener('click', startFirstPlay);
@@ -413,27 +418,23 @@
         window.addEventListener('DOMContentLoaded', function() {
             snapButtons();
             
-            // --- NEW DYNAMIC 'NAO' BUTTON LOGIC ---
             var noBtn = document.getElementById('no-btn');
             
-            // Desktop Hover Behavior
             noBtn.addEventListener('mouseover', function(e) {
                 if (window.innerWidth > 768) {
                     moveButton();
                 }
             });
 
-            // Desktop Click Behavior
             noBtn.addEventListener('click', function(e) {
                 if (window.innerWidth > 768) {
                     notifyNo(e);
                 }
             });
 
-            // Mobile Tap Behavior (3 Slips -> Then Catch)
             noBtn.addEventListener('touchstart', function(e) {
                 if (window.innerWidth <= 768) {
-                    e.preventDefault(); // Prevents fake mouseover bugs on phones
+                    e.preventDefault(); 
                     
                     if (mobileSlipCount < 3) {
                         mobileSlipCount++;
