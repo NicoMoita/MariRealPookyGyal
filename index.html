@@ -6,7 +6,7 @@
     <title>Olá minina esnupi!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=VT323&display=swap" rel="stylesheet">
     
     <style>
         * { box-sizing: border-box; }
@@ -24,7 +24,6 @@
             align-items: center;
             margin: 0;
             overflow: hidden;
-            /* Increased padding to push everything up higher */
             padding-bottom: 300px; 
         }
 
@@ -37,7 +36,6 @@
             padding: 0 20px;
         }
 
-        /* Restored original text styling without the box */
         h1 { 
             font-weight: 800;
             font-size: 3.8rem;
@@ -53,26 +51,58 @@
             transform: rotate(4deg);
         }
 
+        /* --- 8-Bit Pixel Speech Bubble --- */
         .question-box {
             background: #ffffff;
             color: #000000;
             padding: 18px 30px;
-            border-radius: 12px;
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-family: 'VT323', monospace; /* Classic pixel font */
+            font-size: 1.8rem;
             max-width: 85%;
             width: 520px;
-            margin-bottom: 35px;
+            margin-bottom: 50px; /* Extra room for the tail */
             border: 4px solid #000000;
-            box-shadow: 6px 6px 0px #000000;
-            line-height: 1.4;
+            border-radius: 0px; /* Sharp corners for pixel look */
+            box-shadow: 8px 8px 0px #000000;
+            line-height: 1.2;
+            position: relative;
+        }
+
+        /* Pixel Tail Step 1 */
+        .question-box::before {
+            content: "";
+            position: absolute;
+            bottom: -16px;
+            left: 40px;
+            width: 24px;
+            height: 20px;
+            background: #ffffff;
+            border-left: 4px solid #000000;
+            border-right: 4px solid #000000;
+            z-index: 2;
+        }
+
+        /* Pixel Tail Step 2 */
+        .question-box::after {
+            content: "";
+            position: absolute;
+            bottom: -28px;
+            left: 44px; /* Stepped inward */
+            width: 16px;
+            height: 16px;
+            background: #ffffff;
+            border-left: 4px solid #000000;
+            border-right: 4px solid #000000;
+            border-bottom: 4px solid #000000;
+            box-shadow: 8px 8px 0px #000000; /* Drop shadow perfectly matches */
+            z-index: 1;
         }
 
         .parenthesis-text {
-            font-size: 1.05rem;
+            font-size: 1.3rem;
             font-weight: 400;
             display: block;
-            margin-top: 4px;
+            margin-top: 6px;
             color: #444444;
         }
         
@@ -145,6 +175,7 @@
             font-weight: 600;
             margin-top: 2px;
             letter-spacing: 0.5px;
+            font-family: 'Poppins', sans-serif;
         }
         
         #yes-btn:hover .green-layer {
