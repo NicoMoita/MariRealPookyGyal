@@ -232,7 +232,6 @@
             cursor: pointer;
         }
 
-        /* --- Split-Screen Music Player UI --- */
         .music-player {
             position: fixed;
             bottom: 25px;
@@ -263,12 +262,11 @@
             justify-content: center;
         }
 
-        /* --- The Retro Cassette Key Setup --- */
+        /* --- Updated Cassette & Track Dots Container --- */
         .cassette-container {
             position: relative;
             width: 100%;
             margin-bottom: 12px;
-            margin-top: 18px; /* Pushes the cassette down to make room for buttons sticking out */
         }
 
         .player-gif-top {
@@ -278,48 +276,33 @@
             border-radius: 10px;
             display: block;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 3;
         }
 
+        /* Completely see-through flex container for the dots */
         .track-indicators {
             position: absolute;
-            top: -18px; /* Sticks the buttons out of the top! */
+            bottom: 8px; /* Floating directly on top of the bottom edge of the cassette */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 4px; /* Tight gap just like mechanical keys */
-            z-index: 1; /* Puts them behind the edge of the cassette image */
+            gap: 8px;
+            z-index: 5;
         }
 
-        .tape-btn {
-            width: 24px;
-            height: 35px;
-            background-color: #333;
-            border: 2px solid #111;
-            border-radius: 4px 4px 0 0; /* Rounded top edges, flat bottoms */
-            position: relative;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.15s ease;
-            border-bottom: 7px solid #e0e0e0; /* The white unpressed stripe */
-            box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.15);
+        /* Pure top-down circular radio buttons */
+        .track-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8); /* Light drop shadow for visibility */
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* This creates the textured grip dots on the buttons! */
-        .tape-btn::before {
-            content: '';
-            position: absolute;
-            top: 2px; left: 2px; right: 2px; bottom: 3px;
-            background-image: radial-gradient(#111 40%, transparent 40%);
-            background-size: 3px 3px;
-            opacity: 0.8;
-        }
-
-        /* The 'Pressed Down' Active State */
-        .tape-btn.active-btn {
-            transform: translateY(8px); /* Physically pushes the button down */
-            border-bottom: 7px solid #ff0022; /* Red stripe */
-            background-color: #222; /* Darkens slightly when pressed */
-            box-shadow: inset 0px 4px 6px rgba(0,0,0,0.8);
+        /* The glowing red active state */
+        .track-dot.active-dot {
+            background-color: #ff0022;
+            box-shadow: 0px 0px 6px #ff0022, 0px 1px 3px rgba(0, 0, 0, 0.8);
         }
 
         .player-gif-side {
@@ -365,9 +348,7 @@
             .player-gif-side { width: 100%; min-height: 110px; }
             .player-gif-top { height: 65px; }
             .player-controls button { font-size: 11px; padding: 6px 10px; }
-            
-            /* Responsive Retro Buttons for small screens */
-            .tape-btn { width: 20px; height: 30px; }
+            .track-dot { width: 8px; height: 8px; } /* Slightly smaller dots on mobile */
         }
     </style>
 </head>
@@ -404,9 +385,9 @@
         
         <div class="player-left">
             <div class="cassette-container">
-                <div class="track-indicators">
-                    <div class="tape-btn active-btn"></div> <div class="tape-btn"></div>            <div class="tape-btn"></div>            <div class="tape-btn"></div>            </div>
                 <img class="player-gif-top" src="static.gif" alt="Static Top GIF">
+                <div class="track-indicators">
+                    <div class="track-dot active-dot"></div> <div class="track-dot"></div>            <div class="track-dot"></div>            <div class="track-dot"></div>            </div>
             </div>
             
             <div class="player-controls">
@@ -532,13 +513,13 @@
             audio.src = songs[currentSongIndex];
             document.getElementById('dynamic-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
             
-            // Updates the physical retro buttons
-            var btns = document.querySelectorAll('.tape-btn');
-            btns.forEach(function(btn, index) {
+            // Updates the top-down radio dots!
+            var dots = document.querySelectorAll('.track-dot');
+            dots.forEach(function(dot, index) {
                 if(index === currentSongIndex) {
-                    btn.classList.add('active-btn');
+                    dot.classList.add('active-dot');
                 } else {
-                    btn.classList.remove('active-btn');
+                    dot.classList.remove('active-dot');
                 }
             });
             
