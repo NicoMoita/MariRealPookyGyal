@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will you go out with me?</title>
+    <title>Olá minina esnupi!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
@@ -28,11 +28,35 @@
         
         h1 { 
             font-weight: 800;
-            font-size: 3.5rem;
-            text-shadow: 4px 4px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000; 
-            margin-bottom: 40px; 
+            font-size: 3.8rem;
+            text-shadow: 5px 5px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000; 
+            margin-bottom: 15px; 
             letter-spacing: -1px;
             padding: 0 20px;
+        }
+
+        /* Simple styled white box for the question */
+        .question-box {
+            background: #ffffff;
+            color: #000000;
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            max-width: 85%;
+            width: 520px;
+            margin-bottom: 35px;
+            border: 4px solid #000000;
+            box-shadow: 6px 6px 0px #000000;
+            line-height: 1.4;
+        }
+
+        .parenthesis-text {
+            font-size: 1.05rem;
+            font-weight: 400;
+            display: block;
+            margin-top: 4px;
+            color: #444444;
         }
         
         .button-area {
@@ -88,7 +112,7 @@
             transform: scale(0.8);
         }
 
-        /* Top Layer: Central Neon Green (Always stays readable!) */
+        /* Top Layer: Central Neon Green */
         .green-layer {
             background: #23c45e;
             color: white;
@@ -96,7 +120,7 @@
             box-shadow: 5px 5px 0px #000;
         }
         
-        /* --- Perfected Explosive Hover Effects --- */
+        /* --- Explosive Hover Effects --- */
         #yes-btn:hover .green-layer {
             background-color: #00ff66;
             color: #000;
@@ -163,4 +187,174 @@
         
         .player-controls { display: flex; justify-content: center; gap: 8px; }
         .player-controls button { 
-            font-size: 13
+            font-size: 13px; 
+            padding: 8px 14px; 
+            margin: 0; 
+            border-radius: 8px; 
+            background: white; 
+            color: black; 
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+        .player-controls button:hover {
+            background: #ff0055;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body onclick="startFirstPlay()">
+
+    <h1>Olá minina esnupi!</h1>
+
+    <div class="question-box">
+        Queres ir dar um passeio e comer gelado?
+        <span class="parenthesis-text">(Pode ser pão de alho)</span>
+    </div>
+    
+    <div class="button-area">
+        <button id="yes-btn" onclick="notifyMe(event)">
+            <div class="punk-layer yellow-layer"></div>
+            <div class="punk-layer pink-layer"></div>
+            <div class="punk-layer green-layer">Yes!</div>
+        </button>
+        
+        <button id="no-btn" onmouseover="moveButton()">No</button>
+    </div>
+
+    <div class="music-player" onclick="event.stopPropagation()">
+        <img id="song-gif" class="player-gif" src="gif1.gif" alt="Music Visualizer">
+        <p id="song-title">🎵 Song 1</p>
+        <div class="player-controls">
+            <button onclick="prevSong()">⏮ Back</button>
+            <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
+            <button onclick="nextSong()">Next ⏭</button>
+        </div>
+    </div>
+
+    <audio id="myAudio" preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Native layout alignments
+        window.addEventListener('DOMContentLoaded', function() {
+            var yesBtn = document.getElementById('yes-btn');
+            var noBtn = document.getElementById('no-btn');
+            var yesRect = yesBtn.getBoundingClientRect();
+            
+            noBtn.style.left = (yesRect.right + 30) + 'px';
+            noBtn.style.top = yesRect.top + 'px';
+
+            // Auto progression when audio track finishes
+            var audio = document.getElementById('myAudio');
+            audio.addEventListener('ended', function() {
+                nextSong();
+            });
+        });
+
+        // --- Soap Bar "No" Button Sliding Physics ---
+        function moveButton() {
+            var btn = document.getElementById('no-btn');
+            var currentX = btn.offsetLeft;
+            var currentY = btn.offsetTop;
+
+            var maxSlide = 140; 
+            var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
+            var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
+
+            var newX = currentX + offsetX;
+            var newY = currentY + offsetY;
+
+            var padding = 80;
+            if (newX < padding) newX = padding;
+            if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
+            if (newY < padding) newY = padding;
+            if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
+
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
+        }
+
+        // --- Music & GIF Arrays ---
+        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
+        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
+        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; 
+        
+        var currentSongIndex = 0;
+        var audio = document.getElementById('myAudio');
+        var isPlaying = false;
+        var firstPlayStarted = false;
+
+        function startFirstPlay() {
+            if (!firstPlayStarted) {
+                audio.play().then(function() {
+                    isPlaying = true;
+                    firstPlayStarted = true;
+                    document.getElementById('play-btn').innerText = "⏸ Pause";
+                }).catch(function(error) {
+                    console.log("Audio engine queued for user interaction target.");
+                });
+            }
+        }
+
+        function updateSong() {
+            audio.src = songs[currentSongIndex];
+            document.getElementById('song-gif').src = gifs[currentSongIndex] + "?v=" + Date.now();
+            document.getElementById('song-title').innerText = songTitles[currentSongIndex];
+            if (isPlaying) {
+                audio.play();
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            isPlaying = true; 
+            firstPlayStarted = true;
+            updateSong();
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            isPlaying = true;
+            firstPlayStarted = true;
+            updateSong();
+        }
+
+        function togglePlay() {
+            firstPlayStarted = true;
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('play-btn').innerText = "▶ Play";
+            } else {
+                audio.play();
+                isPlaying = true;
+                document.getElementById('play-btn').innerText = "⏸ Pause";
+            }
+        }
+
+        // --- Silent Background Notification Engine ---
+        function notifyMe(event) {
+            event.stopPropagation();
+            
+            var greenLayer = document.querySelector('.green-layer');
+            greenLayer.innerText = "Sending... ❤️";
+
+            fetch("https://formspree.io/f/xeewqyjp", {
+                method: "POST",
+                body: JSON.stringify({ Status: "SHE SAID YES! 😍" }),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function() {
+                alert("Yay! I can't wait! 🥰❤️");
+                greenLayer.innerText = "Yes!";
+            }).catch(function() {
+                alert("Yay! I can't wait! 🥰❤️");
+                greenLayer.innerText = "Yes!";
+            });
+        }
+    </script>
+</body>
+</html>
