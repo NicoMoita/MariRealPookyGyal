@@ -43,25 +43,21 @@
             transition: all 0.2s ease;
         }
         
-        /* Base Yes Button */
         #yes-btn { 
             background-color: #4CAF50; 
             color: white; 
             box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
         }
         
-        /* Spider-Punk Style Highlight Effect */
+        /* Spider-Punk Highlight Effect */
         #yes-btn:hover {
-            background-color: #00ff66; /* Neon Punk Green */
+            background-color: #00ff66; 
             color: #000000;
             font-weight: 800;
-            /* Multi-layered sharp neon glitch shadows */
             box-shadow: 0 0 0 4px #000, 0 0 0 8px #ff0055, 0 0 25px #00f0ff;
-            /* Aggressive comic-book cutout tilt */
             transform: scale(1.15) rotate(-4deg);
         }
         
-        /* Soap bar No Button */
         #no-btn { 
             background-color: #f44336; 
             color: white; 
@@ -72,7 +68,6 @@
             transition: left 0.9s cubic-bezier(0.1, 0.8, 0.3, 1), top 0.9s cubic-bezier(0.1, 0.8, 0.3, 1); 
         }
 
-        /* Upgraded Music Player UI */
         .music-player {
             position: fixed;
             bottom: 25px;
@@ -130,103 +125,4 @@
 
     <div class="music-player" onclick="event.stopPropagation()">
         <img id="song-gif" class="player-gif" src="gif1.gif" alt="Music Visualizer">
-        <p id="song-title">🎵 Song 1</p>
-        <div class="player-controls">
-            <button onclick="prevSong()">⏮ Back</button>
-            <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
-            <button onclick="nextSong()">Next ⏭</button>
-        </div>
-    </div>
-
-    <audio id="myAudio" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
-
-    <script>
-        // --- Soap Bar "No" Button Logic ---
-        function moveButton() {
-            var btn = document.getElementById('no-btn');
-            var currentX = btn.offsetLeft;
-            var currentY = btn.offsetTop;
-
-            var maxSlide = 130; // Slightly smaller slide distance for that close "slipping" feel
-            var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
-            var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
-
-            var newX = currentX + offsetX;
-            var newY = currentY + offsetY;
-
-            var padding = 70;
-            if (newX < padding) newX = padding;
-            if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
-            if (newY < padding) newY = padding;
-            if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
-
-            btn.style.left = newX + 'px';
-            btn.style.top = newY + 'px';
-        }
-
-        // --- Music & GIF Player Data ---
-        var songs = ['music.mp3', 'music2.mp3', 'music3.mp3'];
-        var gifs = ['gif1.gif', 'gif2.gif', 'gif3.gif'];
-        var songTitles = ['🎵 Song 1', '🎵 Song 2', '🎵 Song 3']; // Change these to real song titles if you want!
-        
-        var currentSongIndex = 0;
-        var audio = document.getElementById('myAudio');
-        var isPlaying = false;
-        var firstPlayStarted = false;
-
-        function startFirstPlay() {
-            if (!firstPlayStarted) {
-                audio.play();
-                isPlaying = true;
-                firstPlayStarted = true;
-                document.getElementById('play-btn').innerText = "⏸ Pause";
-            }
-        }
-
-        function updateSong() {
-            audio.src = songs[currentSongIndex];
-            document.getElementById('song-gif').src = gifs[currentSongIndex];
-            document.getElementById('song-title').innerText = songTitles[currentSongIndex];
-            if (isPlaying) {
-                audio.play();
-                document.getElementById('play-btn').innerText = "⏸ Pause";
-            }
-        }
-
-        function nextSong() {
-            currentSongIndex = (currentSongIndex + 1) % songs.length;
-            isPlaying = true; 
-            firstPlayStarted = true;
-            updateSong();
-        }
-
-        function prevSong() {
-            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-            isPlaying = true;
-            firstPlayStarted = true;
-            updateSong();
-        }
-
-        function togglePlay() {
-            firstPlayStarted = true;
-            if (isPlaying) {
-                audio.pause();
-                isPlaying = false;
-                document.getElementById('play-btn').innerText = "▶ Play";
-            } else {
-                audio.play();
-                isPlaying = true;
-                document.getElementById('play-btn').innerText = "⏸ Pause";
-            }
-        }
-
-        // --- Notification Logic ---
-        function notifyMe(event) {
-            event.stopPropagation();
-            window.location.href = "mailto:YOUR_EMAIL@example.com?subject=SHE SAID YES!&body=She clicked Yes on your website!";
-        }
-    </script>
-</body>
-</html>
+        <p id="song-title">🎵 Song
