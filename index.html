@@ -41,7 +41,7 @@
         }
 
         .tap-text {
-            position: relative; 
+            position: relative;
             font-family: 'VT323', monospace;
             font-size: 2.5rem;
             color: #ffffff;
@@ -186,6 +186,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 25px; /* Adds the perfect gap between the buttons */
             margin-top: 8px; 
             z-index: 6; 
         }
@@ -199,7 +200,14 @@
             width: 150px;
             height: 75px; 
             cursor: pointer;
-            transition: transform 0.4s cubic-bezier(0.1, 0.8, 0.3, 1); /* Smooth slide to center when No moves */
+        }
+
+        /* --- THE INVISIBLE PLACEHOLDER GHOST --- */
+        #no-btn-placeholder {
+            width: 150px;
+            height: 75px;
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .punk-layer {
@@ -216,7 +224,6 @@
             transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        /* --- ERRATIC COMIC BOOK HALFTONE DOTS --- */
         .yellow-dots {
             background-color: transparent;
             background-image: 
@@ -456,6 +463,9 @@
             transform: translateY(-2px);
         }
 
+        /* ========================================= */
+        /* 📱 UPDATED MOBILE RESPONSIVENESS RULES 📱 */
+        /* ========================================= */
         @media (max-width: 768px) {
             body { 
                 justify-content: flex-start; 
@@ -475,8 +485,10 @@
             .header-gif { height: 200px; }
             
             .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
-            #yes-btn, #no-btn { width: 140px; height: 65px; font-size: 20px; }
-            .button-area { height: 65px; margin-top: 15px; }
+            
+            #yes-btn, #no-btn, #no-btn-placeholder { width: 140px; height: 65px; font-size: 20px; }
+            
+            .button-area { height: 65px; margin-top: 15px; gap: 15px; }
             .sim-tiny-text { font-size: 0.55rem; }
             
             .music-player { 
@@ -543,6 +555,7 @@
                 </div>
             </div>
         </button>
+        <div id="no-btn-placeholder"></div>
         <button id="no-btn">Não</button>
     </div>
 
@@ -610,20 +623,15 @@
             }
         }
 
+        // Pits the "Não" button directly over the ghost placeholder
         function snapButtons() {
             if (!hasMoved) { 
-                var yesBtn = document.getElementById('yes-btn');
+                var placeholder = document.getElementById('no-btn-placeholder');
                 var noBtn = document.getElementById('no-btn');
-                
-                var gap = window.innerWidth < 768 ? 15 : 25; 
-                
-                // Pushes the 'Yes' button slightly to the left to center the entire group perfectly!
-                var offset = (noBtn.offsetWidth + gap) / 2;
-                yesBtn.style.transform = 'translateX(-' + offset + 'px)';
+                var rect = placeholder.getBoundingClientRect();
 
-                var yesRect = yesBtn.getBoundingClientRect();
-                noBtn.style.left = (yesRect.right + gap) + 'px';
-                noBtn.style.top = yesRect.top + 'px';
+                noBtn.style.left = rect.left + 'px';
+                noBtn.style.top = rect.top + 'px';
             }
         }
 
@@ -665,11 +673,7 @@
         window.addEventListener('resize', snapButtons);
 
         function moveButton() {
-            if (!hasMoved) {
-                hasMoved = true; 
-                // Once the 'No' button runs away, the 'Yes' button smoothly slides back to the true center
-                document.getElementById('yes-btn').style.transform = 'translateX(0px)';
-            }
+            hasMoved = true; 
 
             var btn = document.getElementById('no-btn');
             
