@@ -73,7 +73,7 @@
             width: 350px; 
             height: auto;
             z-index: 0; 
-            opacity: 0.8; 
+            opacity: 0.6; 
             animation: floatStar 4s ease-in-out infinite;
             pointer-events: none; 
         }
@@ -257,7 +257,7 @@
             border: none;
             clip-path: polygon(0% 15%, 30% 25%, 20% 0%, 45% 20%, 70% 0%, 65% 25%, 100% 10%, 80% 40%, 100% 60%, 75% 65%, 95% 95%, 60% 80%, 40% 100%, 35% 75%, 0% 90%, 20% 60%, 0% 40%, 25% 35%);
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.8);
         }
 
         .red-boom {
@@ -266,7 +266,7 @@
             border: none;
             clip-path: polygon(5% 10%, 35% 30%, 25% 5%, 50% 25%, 75% 5%, 70% 30%, 95% 15%, 80% 45%, 95% 65%, 75% 70%, 90% 90%, 60% 75%, 45% 95%, 40% 70%, 5% 85%, 25% 55%, 5% 45%, 30% 40%);
             opacity: 0;
-            transform: scale(0.9);
+            transform: scale(0.8);
         }
 
         .green-layer {
@@ -462,9 +462,6 @@
             transform: translateY(-2px);
         }
 
-        /* ========================================= */
-        /* 📱 UPDATED MOBILE RESPONSIVENESS RULES 📱 */
-        /* ========================================= */
         @media (max-width: 768px) {
             body { 
                 justify-content: flex-start; 
@@ -534,11 +531,11 @@
             Olá, Mari!
             <span class="esnupi-subtitle">(Minina Esnupi)</span>
         </h1>
-        <img src="braum.gif" alt="Braum" class="header-gif">
+        <img src="braum.gif" id="header-mascot" alt="Mascot" class="header-gif">
     </div>
 
     <div class="question-box">
-        Queres ir dar um passeio e comer gelado comigo?
+        Queres ir dar um passeio e comer gelado?
         <span class="parenthesis-text">*Também pode ser pão de alho</span>
     </div>
 
@@ -602,38 +599,12 @@
         var hasMoved = false; 
         var mobileSlipCount = 0;
 
-        function startExperience() {
-            var overlay = document.getElementById('start-overlay');
-            overlay.style.opacity = '0';
-
-            setTimeout(function() { 
-                overlay.style.display = 'none'; 
-            }, 600);
-
-            if (!firstPlayStarted) {
-                firstPlayStarted = true; 
-                audio.play().then(function() {
-                    isPlaying = true;
-                    document.getElementById('play-btn').innerText = "⏸ Pause";
-                }).catch(function(error) {
-                    firstPlayStarted = false; 
-                    console.log("Audio waiting for a specific layout click.");
-                });
-            }
-        }
-
-        function snapButtons() {
-            if (!hasMoved) { 
-                var placeholder = document.getElementById('no-btn-placeholder');
-                var noBtn = document.getElementById('no-btn');
-                var rect = placeholder.getBoundingClientRect();
-
-                noBtn.style.left = rect.left + 'px';
-                noBtn.style.top = rect.top + 'px';
-            }
-        }
-
         window.addEventListener('DOMContentLoaded', function() {
+            // Pick a random mascot when the page loads!
+            var mascots = ['braum.gif', 'spider.gif'];
+            var randomMascot = mascots[Math.floor(Math.random() * mascots.length)];
+            document.getElementById('header-mascot').src = randomMascot;
+
             snapButtons();
 
             var noBtn = document.getElementById('no-btn');
@@ -668,6 +639,37 @@
             });
         });
 
+        function startExperience() {
+            var overlay = document.getElementById('start-overlay');
+            overlay.style.opacity = '0';
+
+            setTimeout(function() { 
+                overlay.style.display = 'none'; 
+            }, 600);
+
+            if (!firstPlayStarted) {
+                firstPlayStarted = true; 
+                audio.play().then(function() {
+                    isPlaying = true;
+                    document.getElementById('play-btn').innerText = "⏸ Pause";
+                }).catch(function(error) {
+                    firstPlayStarted = false; 
+                    console.log("Audio waiting for a specific layout click.");
+                });
+            }
+        }
+
+        function snapButtons() {
+            if (!hasMoved) { 
+                var placeholder = document.getElementById('no-btn-placeholder');
+                var noBtn = document.getElementById('no-btn');
+                var rect = placeholder.getBoundingClientRect();
+
+                noBtn.style.left = rect.left + 'px';
+                noBtn.style.top = rect.top + 'px';
+            }
+        }
+
         window.addEventListener('resize', snapButtons);
 
         function moveButton() {
@@ -679,7 +681,7 @@
             
             var maxSlide = 200; 
             var padding = 80;
-            var safeZone = 20; // Keeps the "No" button at least 20px away from the "Sim" button
+            var safeZone = 20; 
 
             var currentX = btn.offsetLeft;
             var currentY = btn.offsetTop;
@@ -688,7 +690,6 @@
             var isValid = false;
             var attempts = 0;
 
-            // Loop ensures the "No" button calculates a route that doesn't overlap the "Sim" button!
             while (!isValid && attempts < 50) {
                 var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
                 var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
@@ -701,7 +702,6 @@
                 if (newY < padding) newY = padding;
                 if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
 
-                // Collision detection math
                 var isOverlappingX = (newX < yesRect.right + safeZone) && (newX + btn.offsetWidth > yesRect.left - safeZone);
                 var isOverlappingY = (newY < yesRect.bottom + safeZone) && (newY + btn.offsetHeight > yesRect.top - safeZone);
 
@@ -768,17 +768,17 @@
             event.stopPropagation();
 
             var greenLayer = document.querySelector('.green-layer');
-            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar...️</div>";
+            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... ❤️</div>";
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
                 body: JSON.stringify({ Status: "SHE SAID YES! 😍" }),
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
-                alert("Yay! I'ill get back to you asap! :))");
+                alert("Yay! I can't wait! 🥰❤️");
                 greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
             }).catch(function() {
-                alert("Yay! I'ill get back to you asap! :))");
+                alert("Yay! I can't wait! 🥰❤️");
                 greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
             });
         }
@@ -787,17 +787,17 @@
             event.stopPropagation();
 
             var noBtn = document.getElementById('no-btn');
-            noBtn.innerText = "A enviar..."; 
+            noBtn.innerText = "That's ok :/"; 
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
                 body: JSON.stringify({ Status: "Nope" }), 
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
-                alert("That's ok :/");
+                alert("Está bem... 🥺");
                 noBtn.innerText = "Não"; 
             }).catch(function() {
-                alert("That's ok :/");
+                alert("Está bem... 🥺");
                 noBtn.innerText = "Não";
             });
         }
