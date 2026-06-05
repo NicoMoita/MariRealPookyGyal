@@ -73,7 +73,7 @@
             width: 350px; 
             height: auto;
             z-index: 0; 
-            opacity: 0.6; 
+            opacity: 0.8; 
             animation: floatStar 4s ease-in-out infinite;
             pointer-events: none; 
         }
@@ -186,7 +186,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px; /* Adds the perfect gap between the buttons */
+            gap: 25px; 
             margin-top: 8px; 
             z-index: 6; 
         }
@@ -227,11 +227,10 @@
         /* --- UPDATED CLEANER HALFTONE DOTS --- */
         .yellow-dots {
             background-color: transparent;
-            /* Simplified gradients for fewer, cleaner dots */
             background-image: 
                 radial-gradient(circle, #ffea00 40%, transparent 50%),
                 radial-gradient(circle, #ffea00 35%, transparent 45%);
-            background-size: 35px 35px, 45px 45px; /* Larger size = fewer dots */
+            background-size: 35px 35px, 45px 45px; 
             background-position: 10px 10px, 25px 25px;
             border: none; 
             z-index: 1;
@@ -258,7 +257,7 @@
             border: none;
             clip-path: polygon(0% 15%, 30% 25%, 20% 0%, 45% 20%, 70% 0%, 65% 25%, 100% 10%, 80% 40%, 100% 60%, 75% 65%, 95% 95%, 60% 80%, 40% 100%, 35% 75%, 0% 90%, 20% 60%, 0% 40%, 25% 35%);
             opacity: 0;
-            transform: scale(0.8);
+            transform: scale(0.9);
         }
 
         .red-boom {
@@ -267,7 +266,7 @@
             border: none;
             clip-path: polygon(5% 10%, 35% 30%, 25% 5%, 50% 25%, 75% 5%, 70% 30%, 95% 15%, 80% 45%, 95% 65%, 75% 70%, 90% 90%, 60% 75%, 45% 95%, 40% 70%, 5% 85%, 25% 55%, 5% 45%, 30% 40%);
             opacity: 0;
-            transform: scale(0.8);
+            transform: scale(0.9);
         }
 
         .green-layer {
@@ -539,7 +538,7 @@
     </div>
 
     <div class="question-box">
-        Queres ir dar um passeio e comer gelado?
+        Queres ir dar um passeio e comer gelado comigo?
         <span class="parenthesis-text">*Também pode ser pão de alho</span>
     </div>
 
@@ -623,7 +622,6 @@
             }
         }
 
-        // Pits the "Não" button directly over the ghost placeholder
         function snapButtons() {
             if (!hasMoved) { 
                 var placeholder = document.getElementById('no-btn-placeholder');
@@ -676,30 +674,49 @@
             hasMoved = true; 
 
             var btn = document.getElementById('no-btn');
+            var yesBtn = document.getElementById('yes-btn');
+            var yesRect = yesBtn.getBoundingClientRect();
             
             var maxSlide = 200; 
-            var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
-            var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
+            var padding = 80;
+            var safeZone = 20; // Keeps the "No" button at least 20px away from the "Sim" button
 
             var currentX = btn.offsetLeft;
             var currentY = btn.offsetTop;
+            
+            var newX, newY;
+            var isValid = false;
+            var attempts = 0;
 
-            var newX = currentX + offsetX;
-            var newY = currentY + offsetY;
+            // Loop ensures the "No" button calculates a route that doesn't overlap the "Sim" button!
+            while (!isValid && attempts < 50) {
+                var offsetX = (Math.random() - 0.5) * 2 * maxSlide;
+                var offsetY = (Math.random() - 0.5) * 2 * maxSlide;
 
-            var padding = 80;
-            if (newX < padding) newX = padding;
-            if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
-            if (newY < padding) newY = padding;
-            if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
+                newX = currentX + offsetX;
+                newY = currentY + offsetY;
+
+                if (newX < padding) newX = padding;
+                if (newX > window.innerWidth - btn.offsetWidth - padding) newX = window.innerWidth - btn.offsetWidth - padding;
+                if (newY < padding) newY = padding;
+                if (newY > window.innerHeight - btn.offsetHeight - padding) newY = window.innerHeight - btn.offsetHeight - padding;
+
+                // Collision detection math
+                var isOverlappingX = (newX < yesRect.right + safeZone) && (newX + btn.offsetWidth > yesRect.left - safeZone);
+                var isOverlappingY = (newY < yesRect.bottom + safeZone) && (newY + btn.offsetHeight > yesRect.top - safeZone);
+
+                if (!(isOverlappingX && isOverlappingY)) {
+                    isValid = true; 
+                }
+                attempts++;
+            }
 
             btn.style.left = newX + 'px';
             btn.style.top = newY + 'px';
         }
 
         function updateSong() {
-            // FIXED: Removed cloning trick - reset and play cleanly once.
-            clickAudio.currentTime = 0; // Reset to start
+            clickAudio.currentTime = 0; 
             clickAudio.play().catch(function(e) { console.log("Click sound blocked"); });
 
             audio.src = songs[currentSongIndex];
@@ -751,17 +768,17 @@
             event.stopPropagation();
 
             var greenLayer = document.querySelector('.green-layer');
-            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar... ❤️</div>";
+            greenLayer.innerHTML = "<div class='sim-text-wrapper'>A enviar...️</div>";
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
                 body: JSON.stringify({ Status: "SHE SAID YES! 😍" }),
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
-                alert("Yay! I can't wait! 🥰❤️");
+                alert("Yay! I'ill get back to you asap! :))");
                 greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
             }).catch(function() {
-                alert("Yay! I can't wait! 🥰❤️");
+                alert("Yay! I'ill get back to you asap! :))");
                 greenLayer.innerHTML = "<div class='sim-text-wrapper'><span>Sim!</span><span class='sim-tiny-text'>Can't hurt!</span></div>";
             });
         }
@@ -770,17 +787,17 @@
             event.stopPropagation();
 
             var noBtn = document.getElementById('no-btn');
-            noBtn.innerText = "That's ok :/"; 
+            noBtn.innerText = "A enviar..."; 
 
             fetch("https://formspree.io/f/xeewqyjp", {
                 method: "POST",
                 body: JSON.stringify({ Status: "Nope" }), 
                 headers: { 'Content-Type': 'application/json' }
             }).then(function() {
-                alert("Está bem... 🥺");
+                alert("That's ok :/");
                 noBtn.innerText = "Não"; 
             }).catch(function() {
-                alert("Está bem... 🥺");
+                alert("That's ok :/");
                 noBtn.innerText = "Não";
             });
         }
