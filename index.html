@@ -41,7 +41,7 @@
         }
 
         .tap-text {
-            position: relative;
+            position: relative; /* Added to anchor Snoopy */
             font-family: 'VT323', monospace;
             font-size: 2.5rem;
             color: #ffffff;
@@ -133,21 +133,21 @@
 
         /* These activate ONLY when spider.gif is chosen */
         .spider-wrapper {
-            filter: drop-shadow(8px 8px 0px #000000); /* Authentic comic shadow */
+            filter: drop-shadow(8px 8px 0px #000000); 
             transform: rotate(-2deg); 
         }
 
         .spider-img {
-            height: 250px !important;
-            width: 250px !important;
-            object-fit: cover;
-            padding: 16px; /* Creates the white inner border */
-            background-color: #ffffff; /* Fills the border */
+            height: 260px !important;
+            width: 260px !important;
+            object-fit: contain; /* Prevents the GIF from zooming and cropping itself! */
+            padding: 30px; /* Thicker white space so the cuts only hit the border */
+            background-color: #ffffff; 
             
-            /* The custom comic starburst shape! */
-            clip-path: polygon(50% 0%, 61% 16%, 86% 5%, 72% 28%, 100% 33%, 76% 51%, 95% 76%, 66% 70%, 71% 100%, 48% 81%, 23% 97%, 31% 69%, 4% 80%, 23% 51%, 0% 33%, 27% 28%, 10% 5%, 39% 16%);
+            /* Shallower cuts so it preserves the image while keeping the comic book shape */
+            clip-path: polygon(50% 0%, 58% 12%, 85% 5%, 80% 20%, 100% 30%, 85% 48%, 95% 70%, 78% 80%, 80% 100%, 52% 85%, 25% 95%, 22% 80%, 5% 80%, 15% 52%, 0% 30%, 18% 22%, 15% 5%, 35% 15%);
             
-            transform: none !important; /* Removes default Braum rotation */
+            transform: none !important; 
         }
 
         /* --- 8-BIT GAMEBOY / POKÉMON BUBBLE --- */
@@ -228,6 +228,7 @@
             cursor: pointer;
         }
 
+        /* --- THE INVISIBLE PLACEHOLDER GHOST --- */
         #no-btn-placeholder {
             width: 150px;
             height: 75px;
@@ -249,6 +250,7 @@
             transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
+        /* --- UPDATED CLEANER HALFTONE DOTS --- */
         .yellow-dots {
             background-color: transparent;
             background-image: 
@@ -486,6 +488,9 @@
             transform: translateY(-2px);
         }
 
+        /* ========================================= */
+        /* 📱 UPDATED MOBILE RESPONSIVENESS RULES 📱 */
+        /* ========================================= */
         @media (max-width: 768px) {
             body { 
                 justify-content: flex-start; 
@@ -504,8 +509,9 @@
             .esnupi-subtitle { font-size: 1.5rem; }
             
             .header-gif { height: 200px; }
-            /* Ensures spider stays nicely scaled on mobile */
-            .spider-img { height: 160px !important; width: 160px !important; padding: 10px; }
+            
+            /* Scales the spider and keeps the padding thick on mobile too */
+            .spider-img { height: 180px !important; width: 180px !important; padding: 20px !important; }
             
             .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
             
@@ -634,7 +640,6 @@
             var mascotEl = document.getElementById('header-mascot');
             var wrapperEl = document.getElementById('mascot-wrapper');
             
-            // Forces mobile to fetch the correct image!
             mascotEl.src = randomMascot + "?v=" + Date.now();
             
             if (randomMascot === 'spider.gif') {
