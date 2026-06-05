@@ -122,6 +122,19 @@
             height: 450px; 
             width: auto;
             transform: rotate(4deg);
+            transition: all 0.3s ease;
+        }
+
+        /* --- SPECIAL STYLES JUST FOR THE SPIDER GIF --- */
+        .spider-style {
+            height: 220px !important;
+            width: 220px !important;
+            object-fit: cover;
+            border-radius: 50%; /* Turns the square into a perfect circle */
+            border: 6px solid #ffffff;
+            box-shadow: 8px 8px 0px #000000; 
+            transform: rotate(-4deg) !important; /* Tilts it slightly the other way */
+            background-color: white; /* In case the GIF has transparent edges */
         }
 
         /* --- 8-BIT GAMEBOY / POKÉMON BUBBLE --- */
@@ -224,7 +237,6 @@
             transition: transform 0.18s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.15s ease, opacity 0.15s ease, clip-path 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
         }
 
-        /* --- UPDATED CLEANER HALFTONE DOTS --- */
         .yellow-dots {
             background-color: transparent;
             background-image: 
@@ -480,6 +492,9 @@
             .esnupi-subtitle { font-size: 1.5rem; }
             .header-gif { height: 200px; }
             
+            /* Ensures spider stays nicely scaled on mobile too */
+            .spider-style { height: 160px !important; width: 160px !important; }
+            
             .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
             
             #yes-btn, #no-btn, #no-btn-placeholder { width: 140px; height: 65px; font-size: 20px; }
@@ -603,7 +618,13 @@
             // Pick a random mascot when the page loads!
             var mascots = ['braum.gif', 'spider.gif'];
             var randomMascot = mascots[Math.floor(Math.random() * mascots.length)];
-            document.getElementById('header-mascot').src = randomMascot;
+            var mascotEl = document.getElementById('header-mascot');
+            mascotEl.src = randomMascot;
+            
+            // Apply special styles if the spider is chosen
+            if (randomMascot === 'spider.gif') {
+                mascotEl.classList.add('spider-style');
+            }
 
             snapButtons();
 
