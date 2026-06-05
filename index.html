@@ -462,7 +462,6 @@
             object-fit: cover;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            margin-left: -30px; /* Moved further to the left! */
         }
 
         .player-controls { display: flex; justify-content: center; gap: 8px; }
@@ -522,7 +521,7 @@
             }
             .player-left { width: 50%; }
             .player-right { width: 50%; }
-            .player-gif-side { width: 100%; min-height: 130px; height: 100%; margin-left: -20px; } /* Moved further to the left on mobile too! */
+            .player-gif-side { width: 100%; min-height: 130px; height: 100%; }
             .player-gif-top { height: 85px; }
             
             .player-controls { width: 100%; gap: 6px; }
@@ -595,7 +594,7 @@
             <div class="player-controls">
                 <button onclick="prevSong()">⏮ Back</button>
                 <button onclick="togglePlay()" id="play-btn">⏸ Pause</button>
-                <button onclick="nextSong()">⏭ Next</button>
+                <button onclick="nextSong()">Next ⏭</button>
             </div>
         </div>
 
