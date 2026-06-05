@@ -118,23 +118,36 @@
             text-shadow: 1px 1px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000;
         }
 
+        /* --- MASCOT & COMIC EXPLOSION STYLES --- */
+        .header-gif-wrapper {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
         .header-gif {
             height: 450px; 
             width: auto;
             transform: rotate(4deg);
-            transition: all 0.3s ease;
+            display: block;
         }
 
-        /* --- SPECIAL STYLES JUST FOR THE SPIDER GIF --- */
-        .spider-style {
-            height: 220px !important;
-            width: 220px !important;
+        /* These activate ONLY when spider.gif is chosen */
+        .spider-wrapper {
+            filter: drop-shadow(8px 8px 0px #000000); /* Authentic comic shadow */
+            transform: rotate(-2deg); 
+        }
+
+        .spider-img {
+            height: 250px !important;
+            width: 250px !important;
             object-fit: cover;
-            border-radius: 50%; /* Turns the square into a perfect circle */
-            border: 6px solid #ffffff;
-            box-shadow: 8px 8px 0px #000000; 
-            transform: rotate(-4deg) !important; /* Tilts it slightly the other way */
-            background-color: white; /* In case the GIF has transparent edges */
+            padding: 16px; /* Creates the white inner border */
+            background-color: #ffffff; /* Fills the border */
+            
+            /* The custom comic starburst shape! */
+            clip-path: polygon(50% 0%, 61% 16%, 86% 5%, 72% 28%, 100% 33%, 76% 51%, 95% 76%, 66% 70%, 71% 100%, 48% 81%, 23% 97%, 31% 69%, 4% 80%, 23% 51%, 0% 33%, 27% 28%, 10% 5%, 39% 16%);
+            
+            transform: none !important; /* Removes default Braum rotation */
         }
 
         /* --- 8-BIT GAMEBOY / POKÉMON BUBBLE --- */
@@ -215,7 +228,6 @@
             cursor: pointer;
         }
 
-        /* --- THE INVISIBLE PLACEHOLDER GHOST --- */
         #no-btn-placeholder {
             width: 150px;
             height: 75px;
@@ -490,10 +502,10 @@
             .header-container { gap: 10px; margin-bottom: 20px; }
             h1 { font-size: 2.8rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
             .esnupi-subtitle { font-size: 1.5rem; }
-            .header-gif { height: 200px; }
             
-            /* Ensures spider stays nicely scaled on mobile too */
-            .spider-style { height: 160px !important; width: 160px !important; }
+            .header-gif { height: 200px; }
+            /* Ensures spider stays nicely scaled on mobile */
+            .spider-img { height: 160px !important; width: 160px !important; padding: 10px; }
             
             .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
             
@@ -546,7 +558,9 @@
             Olá, Mari!
             <span class="esnupi-subtitle">(Minina Esnupi)</span>
         </h1>
-        <img src="braum.gif" id="header-mascot" alt="Mascot" class="header-gif">
+        <div id="mascot-wrapper" class="header-gif-wrapper">
+            <img id="header-mascot" alt="Mascot" class="header-gif">
+        </div>
     </div>
 
     <div class="question-box">
@@ -615,15 +629,17 @@
         var mobileSlipCount = 0;
 
         window.addEventListener('DOMContentLoaded', function() {
-            // Pick a random mascot when the page loads!
             var mascots = ['braum.gif', 'spider.gif'];
             var randomMascot = mascots[Math.floor(Math.random() * mascots.length)];
             var mascotEl = document.getElementById('header-mascot');
-            mascotEl.src = randomMascot;
+            var wrapperEl = document.getElementById('mascot-wrapper');
             
-            // Apply special styles if the spider is chosen
+            // Forces mobile to fetch the correct image!
+            mascotEl.src = randomMascot + "?v=" + Date.now();
+            
             if (randomMascot === 'spider.gif') {
-                mascotEl.classList.add('spider-style');
+                wrapperEl.classList.add('spider-wrapper');
+                mascotEl.classList.add('spider-img');
             }
 
             snapButtons();
