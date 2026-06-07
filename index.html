@@ -121,21 +121,13 @@
         .header-gif-wrapper {
             display: inline-block;
             transition: all 0.3s ease;
-        }
-
-        .header-gif {
-            height: 450px; 
-            width: auto;
-            transform: rotate(4deg);
-            display: block;
-        }
-
-        .spider-wrapper {
+            /* Applied Spider styles directly */
             filter: drop-shadow(8px 8px 0px #000000); 
             transform: rotate(-2deg); 
         }
 
-        .spider-img {
+        .header-gif {
+            /* Applied Spider styles directly */
             height: 320px !important;
             width: 320px !important;
             object-fit: cover;
@@ -144,7 +136,7 @@
             
             clip-path: polygon(50% 0%, 58% 12%, 85% 5%, 80% 20%, 100% 30%, 85% 48%, 95% 70%, 78% 80%, 80% 100%, 52% 85%, 25% 95%, 22% 80%, 5% 80%, 15% 52%, 0% 30%, 18% 22%, 15% 5%, 35% 15%);
             
-            transform: none !important; 
+            display: block;
         }
 
         .question-box {
@@ -456,7 +448,6 @@
             z-index: 3; 
         }
 
-        /* Fixed height properly crops tall GIFs instead of stretching the container */
         .player-gif-side {
             width: 190px; 
             height: 150px; 
@@ -501,8 +492,11 @@
             h1 { font-size: 2.8rem; text-shadow: 3px 3px 0px #000, -1px -1px 0px #000, 1px -1px 0px #000, -1px 1px 0px #000; }
             .esnupi-subtitle { font-size: 1.5rem; }
             
-            .header-gif { height: 200px; }
-            .spider-img { height: 220px !important; width: 220px !important; padding: 2px !important; } 
+            .header-gif { 
+                height: 220px !important; 
+                width: 220px !important; 
+                padding: 2px !important; 
+            } 
             
             .question-box { font-size: 1.4rem; padding: 15px 20px; width: 92%; }
             
@@ -523,8 +517,6 @@
             }
             .player-left { width: 50%; }
             .player-right { width: 50%; }
-            
-            /* Fixed height for mobile crops the GIF safely */
             .player-gif-side { width: 100%; height: 130px; object-fit: cover; }
             .player-gif-top { height: 85px; }
             
@@ -557,8 +549,8 @@
             Olá, Mari!
             <span class="esnupi-subtitle">(Minina Esnupi)</span>
         </h1>
-        <div id="mascot-wrapper" class="header-gif-wrapper">
-            <img id="header-mascot" alt="Mascot" class="header-gif">
+        <div class="header-gif-wrapper">
+            <img id="header-mascot" src="spider.gif" alt="Mascot" class="header-gif">
         </div>
     </div>
 
@@ -628,18 +620,9 @@
         var mobileSlipCount = 0;
 
         window.addEventListener('DOMContentLoaded', function() {
-            var mascots = ['braum.gif', 'spider.gif'];
-            var randomMascot = mascots[Math.floor(Math.random() * mascots.length)];
-            var mascotEl = document.getElementById('header-mascot');
-            var wrapperEl = document.getElementById('mascot-wrapper');
+            // Removed random mascot selection logic.
+            // Mascot source is now set directly in HTML.
             
-            mascotEl.src = randomMascot + "?v=" + Date.now();
-            
-            if (randomMascot === 'spider.gif') {
-                wrapperEl.classList.add('spider-wrapper');
-                mascotEl.classList.add('spider-img');
-            }
-
             snapButtons();
 
             var noBtn = document.getElementById('no-btn');
